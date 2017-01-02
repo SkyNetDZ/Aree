@@ -1,0 +1,30 @@
+<!--component html goes here -->
+<!--<div class="rTable">
+    <div></div>
+    <div class="rTableBody">
+        <Tree [nodes]="nodes">
+            <template #treeNodeTemplate let-node>
+                <div class="rTableRow">
+                    <span class="rTableCell"><input type="checkbox"></span>
+                    <span class="rTableCell">{{ node.data.name }}</span>
+                    <span class="rTableCell">{{ node.data.Locationid }}</span>
+                    <span class="rTableCell">{{ node.data.RefFormula }}</span>
+                    <span class="rTableCell">{{ node.data.SourceMode }}</span>
+                    <span class="rTableCell">{{ node.data.Trendids }}</span>
+                </div>
+            </template>
+        </Tree>
+    </div>
+</div>-->
+
+<aree-header></aree-header>
+<Tree [nodes]="nodes" draggable="true">
+  <template #treeNodeTemplate let-node>
+    <!--<aree-cell [value]="checkbox"></aree-cell>-->
+    <aree-cell [value]="node.data.name"></aree-cell>
+    <aree-cell [value]="node.data.Locationid"></aree-cell>
+    <aree-cell [value]="node.data.RefFormula "></aree-cell>
+    <aree-cell [value]="node.data.SourceMode"></aree-cell>
+    <aree-cell [value]="node.data.Trendids "></aree-cell>
+  </template>
+</Tree>

@@ -1,0 +1,87 @@
+<section class="chartist">
+  <!--<div class="row">-->
+  <!--<ba-card title="Meters Listing" baCardClass="with-scroll table-panel">-->
+  <!---->
+  <!--</ba-card>-->
+  <!--</div>-->
+  <!--<div class="row">-->
+  <!--<ba-card title="Analyse" baCardClass="with-scroll">-->
+  <!--<div class="row">-->
+  <!--<div class="col-xs-12 col-md-8">-->
+  <!--<div>xs-12 .col-md-8</div>-->
+  <!--</div>-->
+  <!--<div class="col-xs-6 col-md-4">-->
+  <!--<aree-filter-chart></aree-filter-chart>-->
+  <!--</div>-->
+  <!--</div>-->
+  <!--</ba-card>-->
+  <!--</div>-->
+
+  <ngb-accordion #acc="ngbAccordion" activeIds="1">
+    <ngb-panel id="1" title="Meters Listing" baCardClass="with-scroll">
+      <template ngbPanelContent>
+        <ba-card>
+          <div class="toolbar">
+            <button type="button" class="btn btn-success btn-icon">+</button>
+            <button type="button" class="btn btn-info btn-icon">/</button>
+            <button type="button" class="btn btn-danger btn-icon">-</button>
+          </div>
+          <table class="table table-striped" id="meters-grid">
+            <thead>
+            <tr>
+              <th><input type="checkbox" (change)="selectionChangeAll($event.target)"></th>
+              <th class="align-right">N°</th>
+              <th class="align-right">Name</th>
+              <th class="align-right">Description</th>
+              <th class="align-right">Location</th>
+              <th class="align-right">Nature</th>
+              <th class="align-right">Unit</th>
+              <th class="align-right">Date create</th>
+              <th class="align-right">Last value</th>
+            </tr>
+            </thead>
+            <tbody *ngFor="let item of meters" (click)="getConsumption(item)" [dragula]='"bag-one"'
+                   [dragulaModel]='"meters"'>
+            <tr>
+              <td><input type="checkbox" (change)="selectionChange($event.target)"></td>
+              <td class="align-right">{{ item.Id }}</td>
+              <td class="align-right">{{ item.Name }}</td>
+              <td class="align-right">{{ item.Description }}</td>
+              <td class="align-right">{{ item.LocationId }}</td>
+              <td class="align-right">{{ item.Type }}</td>
+              <td class="align-right">{{ item.TrendId }}</td>
+              <td class="align-right">{{ item.UnitId }}</td>
+              <td class="align-right">{{ item.dateCreation }}</td>
+              <td class="align-right">{{ item.lastValue }}</td>
+            </tr>
+            </tbody>
+          </table>
+        </ba-card>
+      </template>
+    </ngb-panel>
+    <ngb-panel id="2" title="Analyse" (click)="acc.toggle('2')">
+      <template ngbPanelContent>
+        <div class="row">
+          <div #partone class="col-xs-13 col-sm-7 col-md-9">
+            <!--<ngb-accordion #acc2="ngbAccordion">-->
+            <!--<ngb-panel id="4" title="Chart">-->
+            <!--<template ngbPanelContent>-->
+            <button (click)="isVisible = !isVisible" class="btn btn-default">Filter</button>
+            <!--<aree-chart-bar #barchart *ngIf="dataTemp" [chartData]="dataTemp"></aree-chart-bar>-->
+            <app-bar-chart #barchart *ngIf="dataTemp" [data]="dataTemp"></app-bar-chart>
+            <app-heatmap-chart #heatmapchart></app-heatmap-chart>
+            <!--</template>-->
+            <!--</ngb-panel>-->
+            <!--</ngb-accordion>-->
+          </div>
+          <div #parttwo class="col-xs-6 col-md-3">
+            <ngb-panel>
+              <aree-fader [isVisible]="isVisible" [attachedComp]=partone></aree-fader>
+            </ngb-panel>
+          </div>
+        </div>
+      </template>
+    </ngb-panel>
+  </ngb-accordion>
+  <app-table></app-table>
+</section>

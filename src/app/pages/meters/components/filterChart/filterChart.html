@@ -1,0 +1,37 @@
+<ba-card title="Filtere" baCardClass="with-scroll">
+  <form>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label for="select-type">Analyse Type</label>
+        <select class="form-control" label="Type" id="select-type" type="select">
+          <option *ngFor="let typeAnalyse of typeAnalyses">
+            {{ typeAnalyse }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <div class="col-sm-6">
+      <div class="form-group">
+        <label for="select-nature">Nature</label>
+        <select label="Nature" id="select-nature" type="select" class="form-control">
+          <option *ngFor="let nature of natures">
+            {{ nature }}
+          </option>
+        </select>
+      </div>
+    </div>
+    <aree-date-picker label="'Date start'"></aree-date-picker>
+    <aree-date-picker label="'Date end'"></aree-date-picker>
+    <div class="form-group">
+      <label for="select-nature">Time</label>
+      <select label="Nature" id="select-time" type="select" class="form-control">
+        <option *ngFor="let time of times">
+          {{ time }}
+        </option>
+      </select>
+    </div>
+    <ba-multi-checkbox [(ngModel)]="checkboxModel" [propertiesMapping]="checkboxPropertiesMapping"
+                       [ngModelOptions]="{standalone: true}"></ba-multi-checkbox>
+    <button type="submit" class="btn btn-primary">Validate</button>
+  </form>
+</ba-card>

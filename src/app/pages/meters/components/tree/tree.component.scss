@@ -1,0 +1,9 @@
+treenode > div.tree-children {
+  padding-left: 0;
+}
+
+treenode > div.node-wrapper {
+  display: flex;
+  align-items: flex-start;
+  border: 1px solid white;
+}

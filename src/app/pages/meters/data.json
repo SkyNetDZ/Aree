@@ -1,0 +1,241 @@
+// Meters
+
+[
+  {
+    Id: 1,
+    Name: "Eclairage bureaux",
+    AlarmIds: null,
+    CoefCommonUnit: 0,
+    CoefDistribution: 100,
+    CoefUnit: 1,
+    DailyMax: 0,
+    Description: null,
+    Formula: null,
+    IsDiff: false,
+    IsDisabled: false,
+    LocationId: 3,
+    ParentId: null,
+    RefFormula: null,
+    RefSamplePeriod: 4,
+    ReferenceYear: null,
+    RolloverLimit: 0,
+    ServiceId: 2,
+    SourceMode: 0,
+    ThresholdId: null,
+    TrendId: 4,
+    TrendIds: null,
+    UnitId: null,
+    UseTheoreticalRef: null,
+    Version: 0
+  },
+  {
+    Id: 2,
+    Name: "Eclairage RC",
+    AlarmIds: null,
+    CoefCommonUnit: 0,
+    CoefDistribution: 100,
+    CoefUnit: 0.5,
+    DailyMax: 0,
+    Description: null,
+    Formula: null,
+    IsDiff: false,
+    IsDisabled: false,
+    LocationId: 2,
+    ParentId: 4,
+    RefFormula: null,
+    RefSamplePeriod: 4,
+    ReferenceYear: null,
+    RolloverLimit: 0,
+    ServiceId: 2,
+    SourceMode: 0,
+    ThresholdId: null,
+    TrendId: 5,
+    TrendIds: null,
+    UnitId: null,
+    UseTheoreticalRef: null,
+    Version: 0
+  },
+  {
+    Id: 3,
+    Name: "Eau",
+    AlarmIds: [
+      1
+    ],
+    CoefCommonUnit: 0,
+    CoefDistribution: 100,
+    CoefUnit: 0.01,
+    DailyMax: 0,
+    Description: null,
+    Formula: null,
+    IsDiff: false,
+    IsDisabled: false,
+    LocationId: 1,
+    ParentId: 5,
+    RefFormula: "",
+    RefSamplePeriod: 4,
+    ReferenceYear: null,
+    RolloverLimit: 0,
+    ServiceId: 4,
+    SourceMode: 0,
+    ThresholdId: null,
+    TrendId: 6,
+    TrendIds: null,
+    UnitId: null,
+    UseTheoreticalRef: null,
+    Version: 0
+  },
+  {
+    Id: 4,
+    Name: "Chauffage",
+    AlarmIds: null,
+    CoefCommonUnit: 0,
+    CoefDistribution: 100,
+    CoefUnit: 1,
+    DailyMax: 0,
+    Description: null,
+    Formula: null,
+    IsDiff: false,
+    IsDisabled: false,
+    LocationId: 1,
+    ParentId: null,
+    RefFormula: null,
+    RefSamplePeriod: 4,
+    ReferenceYear: null,
+    RolloverLimit: 0,
+    ServiceId: 1,
+    SourceMode: 0,
+    ThresholdId: null,
+    TrendId: 7,
+    TrendIds: null,
+    UnitId: null,
+    UseTheoreticalRef: null,
+    Version: 0
+  },
+  {
+    Id: 5,
+    Name: "Climatisation",
+    AlarmIds: null,
+    CoefCommonUnit: 0,
+    CoefDistribution: 100,
+    CoefUnit: 1,
+    DailyMax: 0,
+    Description: null,
+    Formula: null,
+    IsDiff: false,
+    IsDisabled: false,
+    LocationId: 1,
+    ParentId: 4,
+    RefFormula: null,
+    RefSamplePeriod: 4,
+    ReferenceYear: null,
+    RolloverLimit: 0,
+    ServiceId: 5,
+    SourceMode: 0,
+    ThresholdId: null,
+    TrendId: 8,
+    TrendIds: null,
+    UnitId: null,
+    UseTheoreticalRef: null,
+    Version: 0
+  }
+]
+
+
+
+//Group Meters
+[
+  {
+    "Id": 5,
+    "Coef": null,
+    "MeterId": 1,
+    "ParentId": 3
+  },
+  {
+    "Id": 6,
+    "Coef": null,
+    "MeterId": 2,
+    "ParentId": 4
+  },
+  {
+    "Id": 3,
+    "Coef": null,
+    "MeterId": 1,
+    "ParentId": 2
+  },
+  {
+    "Id": 4,
+    "Coef": null,
+    "MeterId": 2,
+    "ParentId": 2
+  }
+]
+
+//Nature
+
+[
+  {
+    "Id": 1,
+    "Name": "Chauffage",
+    "CO2PerUnit": 100,
+    "CoefSE": 1,
+    "Color": "#FFFF0000",
+    "IsGroup": false,
+    "ParentId": null,
+    "TariffId": null,
+    "Type": 0,
+    "UnitId": 19,
+    "Usage": 0
+  },
+  {
+    "Id": 2,
+    "Name": "Eclairage",
+    "CO2PerUnit": 82,
+    "CoefSE": 2.58,
+    "Color": "#FFFFCC00",
+    "IsGroup": false,
+    "ParentId": null,
+    "TariffId": 1,
+    "Type": 0,
+    "UnitId": 19,
+    "Usage": 0
+  },
+  {
+    "Id": 3,
+    "Name": "Eau chaude sanitaire",
+    "CO2PerUnit": 100,
+    "CoefSE": 1,
+    "Color": "#FFFF0066",
+    "IsGroup": false,
+    "ParentId": null,
+    "TariffId": null,
+    "Type": 0,
+    "UnitId": 19,
+    "Usage": 0
+  },
+  {
+    "Id": 4,
+    "Name": "Eau",
+    "CO2PerUnit": null,
+    "CoefSE": null,
+    "Color": "#FF0000FF",
+    "IsGroup": false,
+    "ParentId": null,
+    "TariffId": null,
+    "Type": 0,
+    "UnitId": 80,
+    "Usage": 0
+  },
+  {
+    "Id": 5,
+    "Name": "Climatisation",
+    "CO2PerUnit": 100,
+    "CoefSE": 1,
+    "Color": "#FF0000FF",
+    "IsGroup": false,
+    "ParentId": null,
+    "TariffId": null,
+    "Type": 0,
+    "UnitId": 19,
+    "Usage": 0
+  }
+]

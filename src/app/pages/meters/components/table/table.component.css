@@ -1,0 +1,53 @@
+.rTable {
+  display: block;
+  width: 100%;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: white;
+  color: black;
+}
+
+.rTableHeading, .rTableBody, .rTableFoot, .rTableRow {
+  clear: both;
+}
+
+.rTableHead, .rTableFoot {
+  background-color: #DDD;
+  font-weight: bold;
+}
+
+.rTableCell {
+  border: 1px solid #999999;
+  float: left;
+  height: 30px;
+  overflow: visible;
+  padding: 3px 1.8%;
+  width: 20%;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.rTable:after {
+  visibility: hidden;
+  display: block;
+  font-size: 0;
+  content: " ";
+  clear: both;
+  height: 0;
+}
+
+:host {
+  padding: 10px;
+  margin: 5px;
+}
+
+.rTableHead {
+  border: 1px solid #999999;
+  height: 30px;
+  overflow: visible;
+  padding: 3px 1.8%;
+  width: 20%;
+  align-content: stretch;
+  float: left;
+  resize: horizontal;
+}

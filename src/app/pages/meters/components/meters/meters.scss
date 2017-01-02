@@ -1,0 +1,169 @@
+@import "../../../../theme/sass/conf/conf";
+
+.ct-area {
+  fill-opacity: .5;
+}
+
+.ct-label {
+  color: $default-text;
+  opacity: 0.9;
+  fill: $default-text;
+}
+
+.ct-chart .ct-label {
+  font-size: 1em;
+}
+
+.ct-chart svg {
+  width: 100%;
+  display: block;
+}
+
+.ct-series-a {
+  .ct-bar, .ct-line, .ct-point, .ct-slice-donut, .ct-slice-pie {
+    stroke: $primary;
+  }
+  .ct-slice-pie, .ct-area {
+    fill: $primary;
+  }
+}
+
+.ct-series-b {
+  .ct-bar, .ct-line, .ct-point, .ct-slice-donut, .ct-slice-pie {
+    stroke: $success;
+  }
+  .ct-slice-pie, .ct-area {
+    fill: $success;
+  }
+}
+
+.ct-series-c {
+  .ct-bar, .ct-line, .ct-point, .ct-slice-donut, .ct-slice-pie {
+    stroke: $danger;
+  }
+  .ct-slice-pie, .ct-area {
+    fill: $danger;
+  }
+}
+
+.ct-series-d {
+  .ct-bar, .ct-line, .ct-point, .ct-slice-donut, .ct-slice-pie {
+    stroke: $warning;
+  }
+  .ct-slice-pie, .ct-area {
+    fill: $warning;
+  }
+
+}
+
+.ct-series-e {
+  .ct-bar, .ct-line, .ct-point, .ct-slice-donut, .ct-slice-pie {
+    stroke: $info;
+  }
+  .ct-slice-pie, .ct-area {
+    fill: $info;
+  }
+}
+
+.stacked-bar .ct-bar {
+  stroke-width: 30px;
+}
+
+.bar {
+  fill: rgb(255, 207, 0);
+}
+
+.bar:hover {
+  fill: rgb(255, 0, 0);
+}
+
+.axis-title {
+  fill: none;
+  stroke: white;
+  stroke-width: 0.5px;
+}
+
+.axis {
+  color: white;
+}
+
+@media only screen and (max-width: 760px),
+(min-device-width: 768px) and (max-device-width: 1024px) {
+
+  /* Force table to not be like tables anymore */
+  table, thead, tbody, th, td, tr {
+    display: block;
+  }
+
+  /* Hide table headers (but not display: none;, for accessibility) */
+  thead tr {
+    position: absolute;
+    top: -9999px;
+    left: -9999px;
+  }
+
+  tr {
+    border: 1px solid #ccc;
+  }
+
+  td {
+    /* Behave  like a "row" */
+    border: none;
+    border-bottom: 1px solid #eee;
+    position: relative;
+    padding-left: 50%;
+  }
+
+  td:before {
+    /* Now like a table header */
+    position: absolute;
+    /* Top/left values mimic padding */
+    top: 6px;
+    left: 6px;
+    width: 45%;
+    padding-right: 10px;
+    white-space: nowrap;
+  }
+
+  /*
+    Label the data
+    */
+  td:nth-of-type(1):before {
+    content: "N°";
+  }
+  td:nth-of-type(2):before {
+    content: "Name";
+  }
+  td:nth-of-type(3):before {
+    content: "Description";
+  }
+  td:nth-of-type(4):before {
+    content: "Location";
+  }
+  td:nth-of-type(5):before {
+    content: "Nature";
+  }
+  td:nth-of-type(6):before {
+    content: "Unit";
+  }
+  td:nth-of-type(7):before {
+    content: "Date Creation";
+  }
+  td:nth-of-type(8):before {
+    content: "Last Value";
+  }
+}
+
+//Drag & Drop
+.ex-over {
+  background-color: orangered
+}
+
+.ex-moved {
+  background-color: lawngreen
+}
+
+
+
+
+
