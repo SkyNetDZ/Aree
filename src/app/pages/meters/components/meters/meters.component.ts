@@ -1,7 +1,7 @@
-import {Component, ViewEncapsulation, ViewChild} from "@angular/core";
-import {MetersService} from "./meters.service";
-import {BarChart} from "../charts/charts.component";
-import {DragulaService} from "ng2-dragula/ng2-dragula";
+import { Component, ViewEncapsulation, ViewChild } from '@angular/core';
+import { MetersService } from './meters.service';
+import { BarChart } from '../charts/charts.component';
+import { DragulaService } from 'ng2-dragula/ng2-dragula';
 import * as d3 from 'd3';
 
 @Component({
@@ -104,18 +104,18 @@ export class Meters {
 
     this._metersService.loadMeters()
       .subscribe(
-        data => this.meters = JSON.parse(JSON.stringify(data)),
-        error => console.log(error),
-        () => console.log("Finished")
+      data => this.meters = JSON.parse(JSON.stringify(data)),
+      error => console.log(error),
+      () => console.log('Finished')
       );
   }
 
   getConsumption(meter: any) {
     this._metersService.getConsumption(meter)
       .subscribe(
-        data => this.dataTemp = JSON.parse(JSON.stringify(data))['Data'][0]['Data'],
-        error => console.log(error),
-        () => console.log(this.dataTemp)
+      data => this.dataTemp = JSON.parse(JSON.stringify(data))['Data'][0]['Data'],
+      error => console.log(error),
+      () => console.log(this.dataTemp)
       );
   }
 

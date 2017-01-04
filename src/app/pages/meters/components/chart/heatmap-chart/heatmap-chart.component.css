@@ -1,12 +1,12 @@
 rect.bordered {
-  stroke: #E6E6E6;
-  stroke-width: 2px;
+  stroke: #c3c3c3;
+  stroke-width: 1px;
 }
 
 text.mono {
   font-size: 12px;
   font-family: Consolas, courier;
-  fill: #aaa;
+  fill: #545454;
 }
 
 text.axis-workweek {
@@ -15,4 +15,9 @@ text.axis-workweek {
 
 text.axis-worktime {
   fill: #000;
+}
+
+svg{
+  padding-left: 80px;
+  padding-top: 20px;
 }

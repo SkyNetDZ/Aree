@@ -1,5 +1,5 @@
-import {Component, OnInit, ViewChild, ElementRef, Input, ViewEncapsulation} from "@angular/core";
-import * as d3 from "d3";
+import { Component, OnInit, ViewChild, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import * as d3 from 'd3';
 
 @Component({
   selector: 'app-bar-chart',
@@ -10,9 +10,9 @@ import * as d3 from "d3";
 })
 export class BarChartComponent implements OnInit {
 
-  @ViewChild('chart') private chartContainer: ElementRef;
+  @ViewChild('barchart') private chartContainer: ElementRef;
   @Input() private data: Array<any>;
-  private margin: any = {top: 20, bottom: 20, left: 50, right: 20};
+  private margin: any = { top: 20, bottom: 20, left: 50, right: 20 };
   private padding: number = 20;
   private chart: any;
   private width: number;
@@ -53,9 +53,6 @@ export class BarChartComponent implements OnInit {
       .attr('class', 'bars')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
-    var mindate = new Date(2012, 0, 1),
-      maxdate = new Date(2012, 11, 31);
-
     // define X & Y domains
     let xDomain = this.data.map(d => new Date(parseInt((d.d).substr(6, 24))));
     let yDomain = [0, d3.max(this.data, d => d.v)];
@@ -72,7 +69,7 @@ export class BarChartComponent implements OnInit {
     this.xAxis = svg.append('g')
       .attr('class', 'axis axis-x')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
-      .call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat("%d/%m/%Y")));
+      .call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat('%d/%m/%Y')));
     this.yAxis = svg.append('g')
       .attr('class', 'axis axis-y')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
@@ -84,7 +81,7 @@ export class BarChartComponent implements OnInit {
     this.xScale.domain(this.data.map(d => new Date(parseInt((d.d).substr(6, 24)))));
     this.yScale.domain([0, d3.max(this.data, d => d.v)]);
     this.colors.domain([0, this.data.length]);
-    this.xAxis.transition().call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat("%d/%m/%Y")));
+    this.xAxis.transition().call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat('%d/%m/%Y')));
     this.yAxis.transition().call(d3.axisLeft(this.yScale));
 
     let update = this.chart.selectAll('.bar')
@@ -127,28 +124,28 @@ export class BarChartComponent implements OnInit {
 
   responsivefy(svg) {
     // get container + svg aspect ratio
-    var container = d3.select(svg.node().parentNode),
-      width = parseInt(svg.style("width")),
-      height = parseInt(svg.style("height")),
+    let container = d3.select(svg.node().parentNode),
+      width = parseInt(svg.style('width')),
+      height = parseInt(svg.style('height')),
       aspect = width / height;
 
     // add viewBox and preserveAspectRatio properties,
     // and call resize so that svg resizes on inital page load
-    svg.attr("viewBox", "0 0 " + width + " " + height)
-      .attr("preserveAspectRatio", "xMinYMid")
+    svg.attr('viewBox', '0 0 ' + width + ' ' + height)
+      .attr('preserveAspectRatio', 'xMinYMid')
       .call(resize);
 
     // to register multiple listeners for same event type,
     // you need to add namespace, i.e., 'click.foo'
     // necessary if you call invoke this function for multiple svgs
     // api docs: https://github.com/mbostock/d3/wiki/Selections#on
-    d3.select(window).on("resize." + container.attr("id"), resize);
+    d3.select(window).on('resize.' + container.attr('id'), resize);
 
     // get width of container and resize svg to fit it
     function resize() {
-      var targetWidth = parseInt(container.style("width"));
-      svg.attr("width", targetWidth);
-      svg.attr("height", Math.round(targetWidth / aspect));
+      let targetWidth = parseInt(container.style('width'));
+      svg.attr('width', targetWidth);
+      svg.attr('height', Math.round(targetWidth / aspect));
     }
   }
 

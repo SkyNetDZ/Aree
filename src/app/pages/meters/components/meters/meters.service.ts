@@ -1,8 +1,10 @@
-import {Injectable} from "@angular/core";
-import {Http, Jsonp, Headers} from "@angular/http";
+import { Injectable } from '@angular/core';
+import { Http, Jsonp, Headers } from '@angular/http';
 
 @Injectable()
 export class MetersService {
+
+  private urlConsommation: string = 'http://localhost/AREEService/GetConsumptionHistoryEx';
 
   // private _data = {
   //   simpleLineOptions: {
@@ -172,14 +174,14 @@ export class MetersService {
   // constructor(private _baConfig:BaThemeConfigProvider) {
   // }
 
-  url: 'http://localhost/AREEService/meters';
+  private urlMeters: string = 'http://localhost/AREEService/meters';
 
   constructor(private _jsonp: Jsonp, private _http: Http) {
   }
 
   loadMeters() {
     let header = new Headers();
-    return this._http.get('http://localhost/AREEService/meters').map(res => res.json());
+    return this._http.get(this.urlMeters).map(res => res.json());
   }
 
   public getResponsive(padding, offset) {
@@ -212,33 +214,27 @@ export class MetersService {
 
   public getConsumption(meter: any) {
     let headers = new Headers();
-    let body = {
-      "SessionKey": localStorage.getItem('session_key'),
-      "DontRoundPeriod": false,
-      "Duration": {
-        "Unit": 7,
-        "Value": 1
-      },
-      "EndDate": "/Date(-62135596800000+0000)/",
-      "EntityType": 0,
-      "Id": meter.Id,
-      "IncludeRef": true,
-      "NatureId": null,
-      "NoNature": false,
-      "NoTariff": false,
-      "Normalized": false,
-      "ObjectId": null,
-      "OnlyRef": false,
-      "PerAreaUnit": false,
-      "PerPeriod": 0,
-      "SampleDuration": {
-        "Unit": 6,
-        "Value": 1
-      },
-      "StartDate": "/Date(1448233200000+0100)/"
-    };
-    return this._http.post('http://localhost/AREEService/GetConsumptionHistoryEx', body, headers).map(res => res.json());
+    let body = { 
+      'SessionKey': '9cb5c8e0-b3b4-47a4-bf45-74c9d17a0979',
+       'DontRoundPeriod': false,
+        'Duration': { 'Unit': 6, 'Value': 1 },
+        'EndDate': '\/Date(1477954799999+0100)\/',
+        'EntityType': 0,
+        'Id': 1,
+        'IncludeRef': false,
+         'NatureId': null,
+          'NoNature': true,
+          'NoTariff': true,
+          'Normalized': false,
+          'ObjectId': null,
+          'OnlyRef': false,
+          'PerAreaUnit': false,
+          'PerPeriod': 0,
+          'SampleDuration': 
+          { 'Unit': 3, 'Value': 1 },
+           'StartDate': '\/Date(1475272800000+0200)\/' 
+          };
+    return this._http.post(this.urlConsommation, body, headers).map(res => res.json());
   }
-
 
 }
