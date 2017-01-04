@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, ViewEncapsulation,HostListener } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Input, ViewEncapsulation, HostListener } from '@angular/core';
 import * as d3 from 'd3';
 import { HeatmapService } from './heatmap.service';
 
@@ -13,10 +13,10 @@ import { HeatmapService } from './heatmap.service';
 export class HeatmapChartComponent implements OnInit {
 
   @ViewChild('heatmapchart') private chartContainer: ElementRef;
-  @ViewChild('rect') private card : any;
+  @ViewChild('rect') private card: any;
   @Input() private data: Array<any>;
   @HostListener('mouseenter', ['$event.target']) onShowMessage() {
-       alert('mouse over');
+    alert('mouse over');
   }
   private margin: any = { top: 20, bottom: 20, left: 100, right: 20 };
   private chart: any;
@@ -31,7 +31,7 @@ export class HeatmapChartComponent implements OnInit {
   private colorScale: any;
   private legend: any;
   private cards: any;
-  private svg: any ;
+  private svg: any;
   private element: any;
 
   constructor(private _dataService: HeatmapService) {
@@ -85,7 +85,7 @@ export class HeatmapChartComponent implements OnInit {
     }
   }
 
-  initSvg(){
+  initSvg() {
     this.element = this.chartContainer.nativeElement;
     this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
     this.height = 1000;
@@ -94,19 +94,16 @@ export class HeatmapChartComponent implements OnInit {
     this.gridSize = Math.floor(this.width / 24);
     this.legendElementWidth = this.gridSize * 2;
     this.buckets = 9;
-    this.colors = ['#ffffd9', '#edf8b1', 
-    '#c7e9b4', '#7fcdbb', '#41b6c4', '#1d91c0', '#225ea8', '#253494', '#081d58'];
-    // this.color = d3.scaleLinear().domain([1,length])
-    //   .interpolate(d3.interpolateHcl)
-    //   .range([d3.rgb('#007AFF'), d3.rgb('#FFF500')]);
+    this.colorScale = d3.scaleSequential(d3.interpolateRgb('rgb(255,255,255)', 'rgb(255,0,0)'))
+      .domain([0, d3.max(this.data, d => d.v)]);
 
     this.svg = d3.select(this.element).append('svg')
       .attr('width', this.element.offsetWidth)
-      .attr('height', 1050);
-       // .call(this.responsivefy);
+      .attr('height', 1050)
+      .call(this.responsivefy);
   }
 
-  drawLabels(){
+  drawLabels() {
     let dayLabels = this.svg.selectAll('.dayLabel')
       .data(this.days)
       .enter().append('text')
@@ -117,9 +114,9 @@ export class HeatmapChartComponent implements OnInit {
       .style('fill', 'black')
       .attr('transform', 'translate(-6,' + this.days.length / 1.5 + ')')
       .attr('class', (d, i) =>
-       (i >= 0 && i <= 4)
-        ? 
-        'dayLabel mono axis axis-workweek' : 'dayLabel mono axis');
+        (i >= 0 && i <= 4)
+          ?
+          'dayLabel mono axis axis-workweek' : 'dayLabel mono axis');
 
     let timeLabels = this.svg.selectAll('.timeLabel')
       .data(this.times)
@@ -131,26 +128,23 @@ export class HeatmapChartComponent implements OnInit {
       .style('fill', 'black')
       .attr('transform', 'translate(' + this.gridSize / 2 + ', -6)')
       .attr('class',
-      (d, i) => ((i >= 7 && i <= 16) 
-      ?
-      'timeLabel mono axis axis-worktime' : 'timeLabel mono axis'));
-
-    this.colorScale = d3.scaleQuantile()
-      .domain([0, this.buckets - 1, d3.max(this.data, d => d.v)])
-      .range(this.colors);
+      (d, i) => ((i >= 7 && i <= 16)
+        ?
+        'timeLabel mono axis axis-worktime' : 'timeLabel mono axis'));
   }
 
-  drawCards(){
-        this.cards = this.svg.selectAll('.hour')
-      .data(this.data, d => new Date(parseInt((d.d).substr(6, 24))).getDay() + ':' + new Date(parseInt((d.d).substr(6, 24))).getHours());
+  drawCards() {
+    this.cards = this.svg.selectAll('.hour')
+      .data(this.data,
+      d => new Date(parseInt((d.d).substr(6, 24))).getDay() +
+        ':'
+        + new Date(parseInt((d.d).substr(6, 24))).getHours());
 
     this.cards.append('title');
 
     this.cards.enter().append('rect')
       .attr('x', d => (new Date(parseInt((d.d).substr(6))).getHours()) * this.gridSize)
       .attr('y', d => (new Date(parseInt((d.d).substr(6))).getDate() - 1) * this.days.length)
-      // .attr('rx', 4)
-      // .attr('ry', 4)
       .attr('class', 'hour bordered')
       .attr('width', this.gridSize)
       .attr('height', this.days.length)
@@ -164,26 +158,55 @@ export class HeatmapChartComponent implements OnInit {
     this.cards.exit().remove();
   }
 
-  drawLegend(){
+  drawLegend() {
+
+    let numStops = 10;
+    let countRange = this.colorScale.domain();
+    countRange[2] = countRange[1] - countRange[0];
+    let countPoint = [];
+    for (var i = 0; i < numStops; i++) {
+      countPoint.push(i * countRange[2] / (numStops - 1) + countRange[0]);
+    }
+
+    this.svg.append('defs')
+      .append('linearGradient')
+      .attr('id', 'legend-consommation')
+      .attr('x1', '0%').attr('y1', '0%')
+      .attr('x2', '100%').attr('y2', '0%')
+      .selectAll('stop')
+      .data(d3.range(numStops))
+      .enter().append('stop')
+      .attr('offset', (d, i) => countPoint[i] / numStops)
+      .attr('stop-color', (d, i) => this.colorScale(countPoint[i]));
+
     this.legend = this.svg.selectAll('.legend')
-      .data([0].concat(this.colorScale.quantiles()))
+      .data([0])
       .enter()
       .append('g')
       .attr('class', 'legend');
 
     this.legend.append('rect')
-      .attr('x', (d, i) => this.legendElementWidth * i)
+      .attr('x', 0)
       .attr('y', this.height - 30)
       .attr('width', this.legendElementWidth)
       .attr('height', this.gridSize / 2)
-      .style('fill', (d, i) => this.colors[i]);
+      .style('fill', 'url(#legend-consommation)');
 
-    this.legend.append('text')
-      .attr('class', 'mono')
-      .text(d => '≥ ' + Math.round(d) + ' kWh')
-      .attr('x', (d, i) => this.legendElementWidth * i)
-      .attr('y', this.height - 30 + this.gridSize);
+
+    let xScale = d3.scaleLinear()
+      .range([-this.legendElementWidth / 2, this.legendElementWidth / 2])
+      .domain([0, d3.max(this.data, d => d.v)]);
+
+    //Define x-axis
+    let xAxis = d3.axisBottom(xScale).ticks(6);
+
+    this.legend.append('g')
+      .attr('class', 'axis')
+      .attr('transform', 'translate(63,' + (this.height) + ')')
+      .call(xAxis);
 
     this.legend.exit().remove();
+
+
   }
 }

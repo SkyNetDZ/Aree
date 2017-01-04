@@ -21,3 +21,8 @@ svg{
   padding-left: 80px;
   padding-top: 20px;
 }
+
+.axis path, .axis tick, .axis line {
+	fill: none;
+ stroke: none;
+}
