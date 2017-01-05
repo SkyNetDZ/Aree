@@ -15,9 +15,6 @@ export class HeatmapChartComponent implements OnInit {
   @ViewChild('heatmapchart') private chartContainer: ElementRef;
   @ViewChild('rect') private card: any;
   @Input() private data: Array<any>;
-  @HostListener('mouseenter', ['$event.target']) onShowMessage() {
-    alert('mouse over');
-  }
   private margin: any = { top: 20, bottom: 20, left: 100, right: 20 };
   private chart: any;
   private width: number;
@@ -134,6 +131,11 @@ export class HeatmapChartComponent implements OnInit {
   }
 
   drawCards() {
+
+    let tip = d3.select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
+
     this.cards = this.svg.selectAll('.hour')
       .data(this.data,
       d => new Date(parseInt((d.d).substr(6, 24))).getDay() +
@@ -148,7 +150,28 @@ export class HeatmapChartComponent implements OnInit {
       .attr('class', 'hour bordered')
       .attr('width', this.gridSize)
       .attr('height', this.days.length)
-      .style('fill', d => this.colorScale(d.v));
+      .style('fill', d => this.colorScale(d.v))
+      .on('mouseout', function (d) {
+        tip.style('display', 'none');
+      })
+      .on('mouseover', function (d) {
+        tip.transition()
+          .duration(200)
+          .style('opacity', .9)
+          .style('display', 'block')
+        tip.html('Date : ' +
+          d3.timeFormat('%d/%m/%Y')(
+            new Date(parseInt((d.d).substr(6)))) +
+          '</br> Heurs : ' +
+          d3.timeFormat('%H')(
+            new Date(parseInt((d.d).substr(6)))) + 'h ' +
+          '</br> ' +
+          d.v.toPrecision(4) + ' kWh')
+          .style('left', (d3.event.pageX) + 'px')
+          .style('top', (d3.event.pageY - 28) + 'px')
+          .style('background', d3.event.target.style.fill);
+      });
+
 
     this.cards.transition().duration(1000)
       .style('fill', d => this.colorScale(d.v));
