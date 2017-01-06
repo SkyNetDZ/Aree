@@ -15,7 +15,7 @@ export class HeatmapChartComponent implements OnInit {
   @ViewChild('heatmapchart') private chartContainer: ElementRef;
   @ViewChild('rect') private card: any;
   @Input() private data: Array<any>;
-  private margin: any = { top: 20, bottom: 20, left: 100, right: 20 };
+  private margin: any = { top: 20, bottom: 20, left: 100, right: 10 };
   private chart: any;
   private width: number;
   private height: number;
@@ -155,10 +155,13 @@ export class HeatmapChartComponent implements OnInit {
         tip.style('display', 'none');
       })
       .on('mouseover', function (d) {
+        // TODO :
+        // d3.select(this)
+        // .attr('border', '2px solid black');
         tip.transition()
           .duration(200)
           .style('opacity', .9)
-          .style('display', 'block')
+          .style('display', 'block');
         tip.html('Date : ' +
           d3.timeFormat('%d/%m/%Y')(
             new Date(parseInt((d.d).substr(6)))) +
