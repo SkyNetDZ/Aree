@@ -45,6 +45,8 @@
       <template ngbPanelContent>
             <aree-fader [isVisible]="isVisible" [attachedComp]=partone></aree-fader>
             <app-heatmap-chart *ngIf="dataTemp" [data]="dataTemp"></app-heatmap-chart>
+            <!--<app-line-chart></app-line-chart>-->
+            <!--<app-bar-chart *ngIf="dataTemp" [data]="dataTemp"></app-bar-chart>-->
       </template>
     </ngb-panel>
   </ngb-accordion>

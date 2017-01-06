@@ -214,26 +214,26 @@ export class MetersService {
 
   public getConsumption(meter: any) {
     let headers = new Headers();
-    let body = { 
+    let body = {
       'SessionKey': '9cb5c8e0-b3b4-47a4-bf45-74c9d17a0979',
-       'DontRoundPeriod': false,
-        'Duration': { 'Unit': 6, 'Value': 1 },
-        'EndDate': '\/Date(1477954799999+0100)\/',
-        'EntityType': 0,
-        'Id': 1,
-        'IncludeRef': false,
-         'NatureId': null,
-          'NoNature': true,
-          'NoTariff': true,
-          'Normalized': false,
-          'ObjectId': null,
-          'OnlyRef': false,
-          'PerAreaUnit': false,
-          'PerPeriod': 0,
-          'SampleDuration': 
-          { 'Unit': 3, 'Value': 1 },
-           'StartDate': '\/Date(1475272800000+0200)\/' 
-          };
+      'DontRoundPeriod': false,
+      'Duration': { 'Unit': 6, 'Value': 1 },
+      'EndDate': '\/Date(1477954799999+0100)\/',
+      'EntityType': 0,
+      'Id': 1,
+      'IncludeRef': false,
+      'NatureId': null,
+      'NoNature': true,
+      'NoTariff': true,
+      'Normalized': false,
+      'ObjectId': null,
+      'OnlyRef': false,
+      'PerAreaUnit': false,
+      'PerPeriod': 0,
+      'SampleDuration':
+      { 'Unit': 3, 'Value': 1 },
+      'StartDate': '\/Date(1475272800000+0200)\/'
+    };
     return this._http.post(this.urlConsommation, body, headers).map(res => res.json());
   }
 

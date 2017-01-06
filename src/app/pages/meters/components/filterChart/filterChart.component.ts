@@ -1,7 +1,8 @@
-import {Component, ViewEncapsulation} from "@angular/core";
-import {FormBuilder, Validators, FormGroup, AbstractControl} from "@angular/forms";
-import {FilterChartService} from "./filterChart.service";
-import {Router} from "@angular/router";
+import {Component, ViewEncapsulation, ViewChild} from "@angular/core";
+import { FormBuilder, Validators, FormGroup, AbstractControl } from "@angular/forms";
+import { FilterChartService } from "./filterChart.service";
+import { Router } from "@angular/router";
+import {DatePicker} from "../datePicker/datePicker.component";
 
 
 @Component({
@@ -26,6 +27,16 @@ export class Filterchart {
   public nature: AbstractControl;
   public submitted: boolean = false;
   public styleClass: string[] = ['col-xs-6', 'col-md-4'];
+  public model = {
+    type: '',
+    nature: '',
+    datestart: '',
+    dateend:'' ,
+    time: '',
+    temperature: '',
+    meterId :''
+  };
+
   public checkboxModel = [{
     name: 'Temperature Externe',
     state: false,
@@ -58,10 +69,14 @@ export class Filterchart {
     this.nature = this.form.controls['nature'];
   }
 
+  public updateDate(date , target){
+     this.model[target] = date.year +'/'+ date.month +'/' + date.day;
+  }
+
   public onSubmit(values: Object): void {
+    console.log(values);
     this.submitted = true;
     if (this.form.valid) {
-
     }
   }
 }
