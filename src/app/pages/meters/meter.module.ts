@@ -29,6 +29,8 @@ import { HeatmapChartComponent } from './components/chart/heatmap-chart/heatmap-
 import { LineChartComponent } from './components/chart/line-chart/line-chart.component';
 import { BarChartComponent } from './components/chart/bar-chart/bar-chart.component';
 import { HeatmapService } from './components/chart/heatmap-chart/heatmap.service';
+import {PerformanceChartComponent} from './components/chart/performance-chart/performance-chart.component';
+
 
 @NgModule({
   imports: [
@@ -58,7 +60,8 @@ import { HeatmapService } from './components/chart/heatmap-chart/heatmap.service
     TableComponent,
     BarChartComponent,
     HeatmapChartComponent,
-    LineChartComponent
+    LineChartComponent,
+    PerformanceChartComponent
   ],
   providers: [
     MetersService,
