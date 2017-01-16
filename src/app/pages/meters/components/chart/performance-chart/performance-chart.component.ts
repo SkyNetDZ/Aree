@@ -12,8 +12,17 @@ export class PerformanceChartComponent implements OnInit {
   @ViewChild('performancechart') chartContainer: ElementRef;
   @Input() data: Array<any>;
   private svg: any;
-  private value: number = 200;
+  private value: number = 100;
   private y: any;
+  private scale: any;
+  private targetAnalyse: any;// nomber of columns
+  private heightBar: number = 60; // heightBars
+  private title: string = 'Chart Title';
+  private defaultColor: any;
+  private marginBar = {top: 10, bottom: 10};
+  private targetMeusureCount: number = 3;
+  private offsetAxis: number = 360;
+  private indecatorWidth: number = 100;
 
   constructor() {
   }
@@ -33,7 +42,11 @@ export class PerformanceChartComponent implements OnInit {
 
   createChart() {
     this.initSvg();
-    this.drawIndecator();
+    for (var _i = 1; _i < this.targetMeusureCount; _i++) {
+      this.offsetAxis = _i * this.offsetAxis;
+      this.drawIndecator();
+    }
+
   }
 
   initSvg() {
@@ -45,19 +58,43 @@ export class PerformanceChartComponent implements OnInit {
       .attr('width', 1000)
       .attr('height', 700);
 
-    this.y = d3.scaleQuantile().domain([0, 500]).range([0, 500]);
+    let domain = [50, 90, 150, 230, 330, 450, 1000];
+
+    this.scale = d3.scaleLinear().domain(domain).range([0, 500]);
+
+    let generator = d3.scaleLinear()
+      .domain([0, (domain.length - 1) / 2, domain.length - 1])
+      .range([
+        'blue',
+        'yellow',
+        'brown']
+      )
+      .interpolate(d3.interpolateCubehelix);
+
+    let range = d3.range(domain.length).map(generator);
+
+    console.log(range);
+
+    this.y = d3.scaleQuantile().domain(domain).range(range);
+
+    console.log(this.y(51));
+    console.log(this.y.invertExtent("rgb(0, 255, 255)"));
+    console.log(d3.quantile(domain, 51));
+
 
     let maxs = [
-      {label: '0 -50', max: 180, color: 'green', index: 'A'},
-      {label: '51-90', max: 200, color: 'blue', index: 'B'},
-      {label: '91-150', max: 220, color: 'green', index: 'C'},
-      {label: '151-230', max: 240, color: 'yellow', index: 'D'},
-      {label: '231-330', max: 260, color: 'orange', index: 'E'},
-      {label: '331-450', max: 280, color: 'red', index: 'F'},
-      {label: '> 450', max: 300, color: 'brown', index: 'G'}
+      {label: '< 50', max: 180, color: 50, index: 'A'},//[50,55,7]
+      {label: '51-90', max: 200, color: 90, index: 'B'},//[56,61]
+      {label: '91-150', max: 220, color: 150, index: 'C'},
+      {label: '151-230', max: 240, color: 230, index: 'D'},
+      {label: '231-330', max: 260, color: 330, index: 'E'},
+      {label: '331-450', max: 280, color: 450, index: 'F'},
+      {label: '> 450', max: 300, color: 10000, index: 'G'}
     ];
 
-    let barh = this.svg.append('g');
+    let barh = this.svg.append('g')
+      .attr('transform', 'translate(10,50)')
+      .attr('border', '12px solid black');
 
     let g = barh.selectAll('g')
       .data(maxs)
@@ -68,10 +105,10 @@ export class PerformanceChartComponent implements OnInit {
       .append('rect')
       .attr('y', (d, i) => i * 70)
       .style('width', (d, i) => d.max)
-      .style('fill', d => d.color)
-      .style('margin-top', 10)
-      .style('margin-bottom', 10)
-      .style('height', 60)
+      .style('fill', d => this.y(d.color))
+      .style('margin-top', this.marginBar.top)
+      .style('margin-bottom', this.marginBar.bottom)
+      .style('height', this.heightBar)
       .style('border', '2px ridge white')
       .attr('class', 'bar');
 
@@ -79,7 +116,7 @@ export class PerformanceChartComponent implements OnInit {
       .append('polyline')
       .attr('y', (d, i) => i * 70)
       .style('width', d => d.max)
-      .style('fill', d => d.color)
+      .style('fill', d => this.y(d.color))
       .style('stroke-width', 3)
       .attr('points', (d, i) =>
       ((d.max) + ',' + (i * 70) + ',' +
@@ -88,63 +125,59 @@ export class PerformanceChartComponent implements OnInit {
 
     g
       .append('text')
-      .text((d) => d.label)
+      .text((d) => d.index + ` (` + d.label + `)`)
       .attr('y', (d, i) => (i * 70) + 35)
-      .attr('x', 50)
+      .attr('x', (d, i) => d.max - 50)
       .style('text-anchor', 'middle')
+      .style('font-size', 21)
+      .style('font-weight', 'bold')
       .style('fill', 'white');
 
-    g
-      .append('text')
-      .text((d) => d.index)
-      .attr('y', (d, i) => (i * 70) + 35)
-      .attr('x', (d, i) => d.max - 20)
-      .style('text-anchor', 'middle')
-      .style('fill', 'white');
-
+    this.svg.append('text')
+      .text(this.title)
+      .attr('y', (maxs.length + 1) * 70)
+      .style('font-size', 20);
 
     this.svg.append('g')
       .attr('class', 'axis')
-      .attr('transform', 'translate(' + 360 + ',0)')
-      .call(d3.axisLeft(this.y).tickSizeInner(0))
+      .attr('transform', 'translate(' + this.offsetAxis + ',30)')
+      .call(d3.axisRight(d3.scaleLinear().domain([0, 500]).range([0, 500])).ticks(0))
       .append('text')
+      .text('title')
       .attr('class', 'axis-title')
-      .attr('transform', 'translate(400,0)')
-      // .attr('y', 6)
-      // .attr('dy', '0.71em')
       .attr('text-anchor', 'end');
+
   }
 
   drawIndecator() {
     let indecator = this.svg.append('g');
     indecator
       .append('rect')
-      .attr('y', this.y.quantiles() - 30)
-      .attr('x', 400)
-      .style('width', 100)
-      .style('fill', 'white')
+      .attr('y', this.value)
+      .attr('x', this.offsetAxis)
+      .style('width', this.indecatorWidth)
+      .style('fill', this.y(this.value))
       .style('margin-top', 10)
       .style('margin-bottom', 10)
-      .style('height', 60)
+      .style('height', this.heightBar)
       .style('border', '2px ridge white')
       .attr('class', 'bar');
 
     indecator
       .append('polyline')
-      .attr('y', this.y.quantiles() - 30)
+      .attr('y', this.value)
       .style('width', 100)
-      .style('fill', 'white')
-      .style('stroke-width', 3)
-      .style('stroke', 'white')
-      .attr('points', `400,` + (this.y.quantiles() - 30 + 1) + `,370,` + this.y.quantiles() + `,400,` + (30 + parseInt(this.y.quantiles())));
+      .style('fill', this.y(this.value))
+      .attr('points', this.offsetAxis + `,` + (this.value + 1) + `,` + (this.offsetAxis - 30) + `,` + (this.value + 30) + `,` + this.offsetAxis + `,` + (this.value + 60));
 
     indecator
       .append('text')
-      .text('200')
-      .attr('y', 100 + 30)
+      .text(this.value)
+      .attr('y', this.value + (this.heightBar / 2))
       .attr('x', 400 + 30)
+      .style('font-size', 21)
+      .style('font-weight', 'bold')
       .attr('color', 'black');
-
 
   }
 
