@@ -1,22 +1,18 @@
 <div class="rTableRow" *ngFor="let row of children">
 
-  <div class="rTableCell" [ngStyle]="{'padding-left': padding +'px'}">
+  <app-table-cell>
     <span><img src="../../assets/img/triangle-icon.png" *ngIf="row.children.length > 0"
                [ngClass]="{'icon-expended': row.expanded }"></span>
     <span><input type="checkbox" [checked]="row.checked" (click)="row.check()"/></span>
     <span (click)="row.toggle()">{{ row['Name'] }}</span>
-  </div>
-
+  </app-table-cell>
 
   <div *ngFor="let cell of columns">
     <app-table-cell><span>{{ row[cell.dataIndex] }}</span></app-table-cell>
   </div>
-
 
   <div *ngIf="row.expanded">
     <app-table-row [children]="row.children" [padding]="padding * 2" [columns]="columns"></app-table-row>
   </div>
 
 </div>
-
-

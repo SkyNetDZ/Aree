@@ -1,7 +1,8 @@
-import {Component, Input, ContentChildren, QueryList, ElementRef} from "@angular/core";
-import {Directory} from "../model/Directory";
-import {Meter} from "../model/Meter";
-import {String} from "shelljs";
+import { Component, Input, ContentChildren, QueryList, ElementRef, ViewChild, AfterContentInit } from '@angular/core';
+import { Directory } from '../model/Directory';
+import { Meter } from '../model/Meter';
+import { String } from 'shelljs';
+import { TableCellComponent } from '../table-cell/table-cell.component';
 
 @Component({
   selector: 'app-table-row',
@@ -16,12 +17,23 @@ export class TableRowComponent {
 
   @Input() columns: Array<String>;
 
-  @ContentChildren('row') items: QueryList<ElementRef>;
+  private cells: Array<TableCellComponent>;
+
+  @ContentChildren(TableCellComponent) items: QueryList<TableCellComponent>;
+
+  @ViewChild(TableCellComponent) cell: TableCellComponent;
+
 
   constructor() {
   }
 
-  ngAfterContentInit() {
+  ngAfterViewInit() {
+    console.log(this.cell);
   }
+
+  addCell(cell: TableCellComponent) {
+  }
+
+  deleteCell(cell: TableCellComponent) { }
 
 }

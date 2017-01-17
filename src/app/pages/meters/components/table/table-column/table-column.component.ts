@@ -13,4 +13,7 @@ export class TableColumnComponent implements OnInit {
   ngOnInit() {
   }
 
+  addColumn(){
+  }
+
 }

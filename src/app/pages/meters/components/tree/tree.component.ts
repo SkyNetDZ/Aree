@@ -1,5 +1,5 @@
-import {Component, ViewChild} from "@angular/core";
-import {TreeComponent} from "angular2-tree-component";
+import { Component, ViewChild } from '@angular/core';
+import { TreeComponent } from 'angular2-tree-component';
 
 @Component({
   moduleId: module.id,
@@ -9,12 +9,12 @@ import {TreeComponent} from "angular2-tree-component";
 })
 export class AreeTreeComponent {
 
-  checkbox: string = `<input type="checkbox">`;
+  checkbox: string = `<input type='checkbox'>`;
   @ViewChild('Tree') tree: TreeComponent;
 
   nodes = [{
     id: 1,
-    name: "Eclairage bureaux",
+    name: 'Eclairage bureaux',
     Alarmids: null,
     CoefCommonUnit: 0,
     CoefDistribution: 100,
@@ -40,7 +40,7 @@ export class AreeTreeComponent {
     Version: 0
   }, {
     id: 2,
-    name: "Eclairage RC",
+    name: 'Eclairage RC',
     Alarmids: null,
     CoefCommonUnit: 0,
     CoefDistribution: 100,
@@ -66,7 +66,7 @@ export class AreeTreeComponent {
     Version: 0
   }, {
     id: 3,
-    name: "Eau",
+    name: 'Eau',
     Alarmids: [1],
     CoefCommonUnit: 0,
     CoefDistribution: 100,
@@ -78,7 +78,7 @@ export class AreeTreeComponent {
     IsDisabled: false,
     Locationid: 1,
     Parentid: 1,
-    RefFormula: "",
+    RefFormula: '',
     RefSamplePeriod: 4,
     ReferenceYear: null,
     RolloverLimit: 0,
@@ -92,7 +92,7 @@ export class AreeTreeComponent {
     Version: 0
   }, {
     id: 4,
-    name: "Chauffage",
+    name: 'Chauffage',
     Alarmids: null,
     CoefCommonUnit: 0,
     CoefDistribution: 100,
@@ -118,7 +118,7 @@ export class AreeTreeComponent {
     Version: 0
   }, {
     id: 5,
-    name: "Climatisation",
+    name: 'Climatisation',
     Alarmids: null,
     CoefCommonUnit: 0,
     CoefDistribution: 100,
