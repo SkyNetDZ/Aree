@@ -1,3 +1,8 @@
 rect{
     border: width border-style color;
 }
+
+text.axis-title{
+    color: black;
+    transform: translateX(50);
+}
