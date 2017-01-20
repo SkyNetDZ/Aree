@@ -1,18 +1,40 @@
 <div class="dropdown">
-  <button class="dropbtn">v</button>
-  <div class="dropdown-content">
-    <form>
-      <div header></div>
+  <button class="dropbtn" (click)="onShow()">v</button>
+  <div class="dropdown-content" [ngStyle]="{'display': displayMenu}">
+    <form #configForm="ngForm" (ngSubmit)="saveConfig(configForm.value)">
+      <div header>
+        <p> Config column : </p>
+      </div>
       <div content>
-        <input type="checkbox"><br>
-        <input type="checkbox"><br>
-        <input type="checkbox"><br>
-        <input type="checkbox"><br>
+        <label>
+          <input type="checkbox" value="consommation" (change)="addNewConfig($event)" [(ngModel)]="consommation"
+                 name="consommation" #consomationef="ngModel">
+          Consommation
+        </label>
+        <br>
+        <label>
+          <input type="checkbox" value="tendance" (change)="addNewConfig($event)" [(ngModel)]="tendance"
+                 name="tendance">
+          Tendance
+        </label>
+        <br>
+        <label>
+          <input type="checkbox" value="date_start" (change)="addNewConfig($event)" [(ngModel)]="dateStart"
+                 name="dateStart">
+          Date Début
+        </label>
+        <br>
+        <label>
+          <input type="checkbox" value="date_end" (change)="addNewConfig($event)" [(ngModel)]="dateEnd" name="dateEnd">
+          Date Fin
+        </label>
+        <br>
       </div>
       <div footer>
-        <button>config</button>
-        <button>close</button>
+        <button type="submit">config</button>
+        <button type="reset">Annule</button>
       </div>
     </form>
   </div>
 </div>
+<!--{{ configForm.value | json }}-->

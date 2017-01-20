@@ -36,7 +36,7 @@
 }
 
 .dropdown:hover .dropbtn {
-  background-color: #8c8d8e;
+  background-image: url("../../assets/icon/filter.png");
 }
 
 form {
@@ -51,4 +51,8 @@ input {
 
 :host {
   margin-outside: 3px;
+}
+
+.filter-icon {
+  background-image: url("../../assets/icon/filter.png");
 }

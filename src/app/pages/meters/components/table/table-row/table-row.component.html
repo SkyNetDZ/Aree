@@ -1,10 +1,10 @@
 <div class="rTableRow" *ngFor="let row of children;let j = index">
 
-  <app-table-cell *ngFor="let cell of columns;let i = index">
+  <app-table-cell *ngFor="let cell of columns;let i = index" [cellWidth]="cellWidth" [padding]="padding">
     <span *ngIf="i == 0"><img src="../../assets/img/triangle-icon.png" *ngIf="row.children.length > 0"
                [ngClass]="{'icon-expended': row.expanded }"></span>
     <span *ngIf="i == 0"><input type="checkbox" [checked]="row.checked" (click)="row.check()"/></span>
-    <span (click)="row.toggle()">{{ parent }}{{ j }}{{ i }}</span>
+    <span (click)="row.toggle()">{{ row[cell.dataIndex] }}</span>
   </app-table-cell>
 
   <!--<div *ngFor="let cell of columns">
@@ -12,7 +12,8 @@
   </div>-->
 
   <div *ngIf="row.expanded">
-    <app-table-row [children]="row.children" [padding]="padding * 2" [columns]="columns" [parent]="j"></app-table-row>
+    <app-table-row [children]="row.children" [padding]="padding * 2" [columns]="columns" [parent]="j"
+                   [cellWidth]="cellWidth"></app-table-row>
   </div>
 
 </div>

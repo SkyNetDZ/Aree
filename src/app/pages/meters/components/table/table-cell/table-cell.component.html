@@ -1,4 +1,4 @@
-<div class="rTableCell">
+<div class="rTableCell" [ngStyle]="{'width': cellWidth +'px' , 'padding-left': padding +'px' }">
   <span *ngIf="content != null">{{ content }}</span>
   <ng-content></ng-content>
 </div>

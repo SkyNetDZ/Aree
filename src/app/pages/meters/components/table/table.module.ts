@@ -6,14 +6,19 @@ import {TableColumnComponent} from './table-column/table-column.component';
 import {TableCellComponent} from './table-cell/table-cell.component';
 import {FirstDirective} from './table-row/table-row.component';
 import {ConfColumnComponent} from './conf-column/conf-column.component';
+import {ConfColumnService} from "./conf-column/conf-column.service";
+import {TableConfigService} from "./table-config.service";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   entryComponents: [TableColumnComponent, TableCellComponent, TableRowComponent],
   declarations: [TableRowComponent, FilterComponent, TableColumnComponent, TableCellComponent, FirstDirective, ConfColumnComponent],
-  exports: [TableRowComponent, FilterComponent, TableColumnComponent, TableCellComponent, ConfColumnComponent]
+  exports: [TableRowComponent, FilterComponent, TableColumnComponent, TableCellComponent, ConfColumnComponent],
+  providers: [ConfColumnService, TableConfigService]
 })
 export class TableModule {
 }

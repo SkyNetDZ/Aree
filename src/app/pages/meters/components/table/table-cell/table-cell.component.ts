@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, Input} from '@angular/core';
 import { TableColumnComponent } from '../table-column/table-column.component';
 import { TableRowComponent } from '../table-row/table-row.component';
 
@@ -12,6 +12,10 @@ export class TableCellComponent {
   private content: string;
   private parentRow : TableRowComponent;
   private parentColumn : TableColumnComponent;
+
+
+  @Input() cellWidth: number;
+  @Input() padding: number;
 
   constructor() {
   }

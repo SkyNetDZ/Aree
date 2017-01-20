@@ -31,6 +31,7 @@ import { LineChartComponent } from './components/chart/line-chart/line-chart.com
 import { BarChartComponent } from './components/chart/bar-chart/bar-chart.component';
 import { HeatmapService } from './components/chart/heatmap-chart/heatmap.service';
 import {PerformanceChartComponent} from './components/chart/performance-chart/performance-chart.component';
+import {ConfColumnService} from "./components/table/conf-column/conf-column.service";
 
 
 @NgModule({

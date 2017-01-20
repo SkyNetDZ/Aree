@@ -18,10 +18,10 @@ import {
   ComponentFactoryResolver
 }
   from '@angular/core';
-import { Directory } from '../model/Directory';
-import { Meter } from '../model/Meter';
-import { String } from 'shelljs';
-import { TableCellComponent } from '../table-cell/table-cell.component';
+import {Directory} from '../model/Directory';
+import {Meter} from '../model/Meter';
+import {String} from 'shelljs';
+import {TableCellComponent} from '../table-cell/table-cell.component';
 
 @Directive({
   selector: '[first]'
@@ -36,7 +36,7 @@ export class FirstDirective {
   }
 
   @Input() set first(value) {
-    console.log(this.template);
+    //console.log(this.template);
     this.view.createEmbeddedView(this.template, {
       $implicit: 'Angular'
     });
@@ -62,6 +62,8 @@ export class FirstDirective {
 })
 export class TableRowComponent {
 
+  @Input() cellWidth: number;
+
   @Input() parent: number;
 
   @Input() children: Array<Meter>;
@@ -78,9 +80,10 @@ export class TableRowComponent {
 
   @ViewChildren(TableCellComponent, {read: ViewContainerRef}) cells: QueryList<any>;
 
-  private static cells2: Array<any> = new Array();
+  private static cells2: Array<any> = [];
 
   constructor(private resolver: ComponentFactoryResolver) {
+    //console.log(this.cellWidth);
   }
 
 
@@ -90,7 +93,7 @@ export class TableRowComponent {
         TableRowComponent.cells2.push(item);
       })
     }
-    console.log(TableRowComponent.cells2);
+    //console.log(TableRowComponent.cells2);
   }
 
   addCell() {
@@ -104,6 +107,7 @@ export class TableRowComponent {
     });
   }
 
-  deleteCell(cell: TableCellComponent) { }
+  deleteCell(cell: TableCellComponent) {
+  }
 
 }
