@@ -1,4 +1,22 @@
-import { Component, OnInit, ElementRef, ViewChild, ViewChildren,AfterViewInit, ViewContainerRef, QueryList , ContentChildren, ComponentFactoryResolver }
+import {
+  Directive,
+  Input,
+  Output,
+  EventEmitter,
+  HostBinding,
+  HostListener,
+  TemplateRef,
+  Component,
+  OnInit,
+  ElementRef,
+  ViewChild,
+  ViewChildren,
+  AfterViewInit,
+  ViewContainerRef,
+  QueryList,
+  ContentChildren,
+  ComponentFactoryResolver
+}
   from '@angular/core';
 import { Directory } from './model/Directory';
 import { TableColumnComponent } from './table-column/table-column.component';
@@ -8,62 +26,78 @@ import { Meter } from './model/Meter';
 import { forEach } from '@angular/router/src/utils/collection';
 import { createTypeParameter } from 'typedoc/lib/converter/factories';
 
+
+// ================================================================================= //
+
+@Component({
+  selector: 'app-test',
+  template: `<app-table-cell *first="let message">Hello, {{message}}</app-table-cell> `
+})
+export class TestComponent {
+}
+
 @Component({
   selector: 'app-table',
-  templateUrl: './table.component.html',
-  styleUrls: ['table.component.css']
+  // templateUrl: './table.component.html',
+  styleUrls: ['table.component.scss'],
+  template: `
+  <h1 i18n>My Data</h1>
+  <button (click)="onClickAddRow()">add row</button>
+  <button (click)="onClickAddColumn()">add column</button>
+  <button (click)="onClickDeleteColumn()">delete column</button>
+  <button (click)="onClickAddElement()">add Element</button>
+  <div class="rTable" #table>
+    <div class="rTableRow" #header>
+      <div *ngFor="let header of columns">
+        <div class="rTableHead">
+          <span>{{ header.columnName}}</span>
+          <span><app-filter></app-filter></span>
+          <span><app-conf-column></app-conf-column></span>
+          <div style="background-color: red"></div>
+        </div>
+      </div>
+    </div>
+    <app-table-row [children]="children" [padding]="20" [columns]="columns"></app-table-row>
+  </div>
+  `
 })
 export class TableComponent implements AfterViewInit {
 
+  condition: boolean = true;
+
   children: Array<Meter> = [];
+
+  globalStyle: any;
 
   @ViewChild('table', { read: ViewContainerRef }) container;
 
-  @ViewChildren(TableRowComponent,  { read: ViewContainerRef }) rows: QueryList<TableRowComponent>;
-
- // @ContentChildren(TableRowComponent, { read: ViewContainerRef }) rows : QueryList<TableRowComponent>;
+  @ViewChildren(TableRowComponent, {read: ViewContainerRef}) rows: QueryList<TableRowComponent>;
 
   @ViewChild('header', { read: ViewContainerRef }) header;
 
   @ViewChild('column') column;
 
-   @ViewChild(TableRowComponent, { read: ViewContainerRef }) row;
+  @ViewChild(TableRowComponent, {read: ViewContainerRef}) row;
+
+  @ViewChild(TableCellComponent, {read: ViewContainerRef}) cell: TableCellComponent;
+
+  @ContentChildren(TableRowComponent, {read: ViewContainerRef}) items: QueryList<TableRowComponent>;
+
+  ngAfterViewInit() {
+    // console.log(this.cell);
+    // console.log(this.container2);
+    // console.log(this.items);
+  }
 
   columns = [
     { columnName: 'N°', dataIndex: 'Id' },
     { columnName: 'Designation', dataIndex: 'Name' },
     { columnName: 'Description', dataIndex: 'Description' }
   ];
-  // ,
-  // ,
-  // 'AlarmIds',
-  // 'CoefCommonUnit',
-  // 'CoefDistribution',
-  // 'CoefUnit',
-  // 'DailyMax',
-  // 'Description',
-  // 'Formula',
-  // 'IsDiff',
-  // 'IsDisabled',
-  // 'LocationId',
-  // 'ParentId',
-  // 'RefFormula',
-  // 'RefSamplePeriod',
-  // 'ReferenceYear',
-  // 'RolloverLimit',
-  // 'ServiceId',
-  // 'SourceMode',
-  // 'ThresholdId',
-  // 'TrendId',
-  // 'TrendIds',
-  // 'UnitId',
-  // 'UseTheoreticalRef',
-  // 'Version'];
+
   widgetRef;
   widgetRef2;
-
   numbreLignes: number;
-
   numberColumns: number;
 
   data = [{
@@ -106,7 +140,7 @@ export class TableComponent implements AfterViewInit {
     IsDiff: false,
     IsDisabled: false,
     LocationId: 2,
-    ParentId: 4,
+    ParentId: 1,
     RefFormula: null,
     RefSamplePeriod: 4,
     ReferenceYear: null,
@@ -133,7 +167,7 @@ export class TableComponent implements AfterViewInit {
     IsDiff: false,
     IsDisabled: false,
     LocationId: 1,
-    ParentId: 5,
+    ParentId: null,
     RefFormula: '',
     RefSamplePeriod: 4,
     ReferenceYear: null,
@@ -142,60 +176,6 @@ export class TableComponent implements AfterViewInit {
     SourceMode: 0,
     ThresholdId: null,
     TrendId: 6,
-    TrendIds: null,
-    UnitId: null,
-    UseTheoreticalRef: null,
-    Version: 0
-  },
-  {
-    Id: 4,
-    Name: 'Chauffage',
-    AlarmIds: null,
-    CoefCommonUnit: 0,
-    CoefDistribution: 100,
-    CoefUnit: 1,
-    DailyMax: 0,
-    Description: null,
-    Formula: null,
-    IsDiff: false,
-    IsDisabled: false,
-    LocationId: 1,
-    ParentId: null,
-    RefFormula: null,
-    RefSamplePeriod: 4,
-    ReferenceYear: null,
-    RolloverLimit: 0,
-    ServiceId: 1,
-    SourceMode: 0,
-    ThresholdId: null,
-    TrendId: 7,
-    TrendIds: null,
-    UnitId: null,
-    UseTheoreticalRef: null,
-    Version: 0
-  },
-  {
-    Id: 5,
-    Name: 'Climatisation',
-    AlarmIds: null,
-    CoefCommonUnit: 0,
-    CoefDistribution: 100,
-    CoefUnit: 1,
-    DailyMax: 0,
-    Description: null,
-    Formula: null,
-    IsDiff: false,
-    IsDisabled: false,
-    LocationId: 1,
-    ParentId: 4,
-    RefFormula: null,
-    RefSamplePeriod: 4,
-    ReferenceYear: null,
-    RolloverLimit: 0,
-    ServiceId: 5,
-    SourceMode: 0,
-    ThresholdId: null,
-    TrendId: 8,
     TrendIds: null,
     UnitId: null,
     UseTheoreticalRef: null,
@@ -238,24 +218,18 @@ export class TableComponent implements AfterViewInit {
   onClickAddRow() {
   }
 
-  ngAfterViewInit() {
-  }
+  // ngAfterViewInit() {
+  // }
 
 
   //TODO : Adding new columns and resizing existing columns
   onClickAddColumn() {
-    // const factory = this.resolver.resolveComponentFactory(TableColumnComponent);
-    // this.widgetRef = this.header.createComponent(factory);
-
-    let cell = new TableCellComponent();
-    this.rows.forEach(function(row){
-      row.addCell(cell);
-    });
-
+    this.columns.push({columnName: 'new column', dataIndex: ''});
+    //this.row._element.component.addCell();
   }
 
   onClickDeleteColumn() {
-    
+
   }
 
   toggleFilter() {
@@ -263,7 +237,26 @@ export class TableComponent implements AfterViewInit {
   }
 
   ngAfterContentInit() {
+    console.log(this.rows)
+  }
 
+  onClickAddElement() {
+    const factory = this.resolver.resolveComponentFactory(TableCellComponent);
+    this.widgetRef = this.row.createComponent(factory);
+  }
+
+  readStyleData() {
 
   }
+
+  loadStyle() {
+
+  }
+
+  handleAddCell(row) {
+    console.log('handler add cell');
+    console.log(event);
+  }
+
+
 }

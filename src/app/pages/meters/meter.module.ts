@@ -24,6 +24,7 @@ import { MultiChartComponent } from './components/multi-chart/multi-chart.compon
 import { AreeTreeModule } from './components/tree/tree.module';
 import { TableModule } from './components/table/table.module';
 import { TableComponent } from './components/table/table.component';
+import {TestComponent} from './components/table/table.component';
 import { ChartModule } from './components/chart/chart.module';
 import { HeatmapChartComponent } from './components/chart/heatmap-chart/heatmap-chart.component';
 import { LineChartComponent } from './components/chart/line-chart/line-chart.component';
@@ -61,7 +62,8 @@ import {PerformanceChartComponent} from './components/chart/performance-chart/pe
     BarChartComponent,
     HeatmapChartComponent,
     LineChartComponent,
-    PerformanceChartComponent
+    PerformanceChartComponent,
+    TestComponent
   ],
   providers: [
     MetersService,

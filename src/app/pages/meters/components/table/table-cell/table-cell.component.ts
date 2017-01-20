@@ -7,15 +7,18 @@ import { TableRowComponent } from '../table-row/table-row.component';
   templateUrl: 'table-cell.component.html',
   styleUrls: ['table-cell.component.css']
 })
-export class TableCellComponent implements OnInit {
+export class TableCellComponent {
 
+  private content: string;
   private parentRow : TableRowComponent;
   private parentColumn : TableColumnComponent;
 
   constructor() {
   }
 
-  ngOnInit() {
+  handleAddCell() {
+    console.log(this);
+    console.log('add cell');
   }
 
 }

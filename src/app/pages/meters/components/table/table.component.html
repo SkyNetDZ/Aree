@@ -1,20 +1,5 @@
-<button (click)="onClickAddRow()">add row</button>
-<button (click)="onClickAddColumn()">add column</button>
-<button (click)="onClickDeleteColumn()">delete column</button>
-<div class="rTable" #table>
-  <div class="rTableRow" #header>
-    <div class="rTableHead">
-      <span>Name</span>
-      <span><app-filter></app-filter></span>
-      <div style="background-color: red"></div>
-    </div>
-    <div *ngFor="let header of columns">
-      <div class="rTableHead">
-        <span>{{ header.columnName}}</span>
-        <span><app-filter></app-filter></span>
-        <div style="background-color: red"></div>
-      </div>
-    </div>
-  </div>
-  <app-table-row [children]="children" [padding]="20" [columns]="columns"></app-table-row>
-</div>
+<!--<input type="text" [(ngModel)]="globalStyle.backgroundColor"><br><br> -->
+<!--<button (click)="onClickAddElement()">add Element</button>
+<button (click)="condition = !condition">Hide Row </button>
+<app-table-row [children]="children"></app-table-row>-->
+<!--<app-test></app-test>-->

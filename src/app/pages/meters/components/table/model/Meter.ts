@@ -34,7 +34,7 @@ export class Meter {
   constructor(name, children) {
     this.Name = name;
     this.children = children;
-    this.expanded = false;
+    this.expanded = true;
     this.checked = false;
   }
 
