@@ -9,16 +9,19 @@ import {ConfColumnComponent} from './conf-column/conf-column.component';
 import {ConfColumnService} from "./conf-column/conf-column.service";
 import {TableConfigService} from "./table-config.service";
 import {FormsModule} from "@angular/forms";
+import {HttpModule} from "@angular/http";
+import {TableService} from "./service/table.service";
 
 @NgModule({
   imports: [
     CommonModule,
-    FormsModule
+    FormsModule,
+    HttpModule
   ],
   entryComponents: [TableColumnComponent, TableCellComponent, TableRowComponent],
   declarations: [TableRowComponent, FilterComponent, TableColumnComponent, TableCellComponent, FirstDirective, ConfColumnComponent],
   exports: [TableRowComponent, FilterComponent, TableColumnComponent, TableCellComponent, ConfColumnComponent],
-  providers: [ConfColumnService, TableConfigService]
+  providers: [ConfColumnService, TableConfigService, TableService]
 })
 export class TableModule {
 }

@@ -7,6 +7,12 @@ import {Component, OnInit} from "@angular/core";
 })
 export class TableColumnComponent implements OnInit {
 
+  public name: string;
+  public model: any;
+  public field: string;
+  public hidden: boolean;
+  public filter: any;
+
   constructor() {
   }
 

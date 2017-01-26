@@ -35,8 +35,11 @@
   display: block;
 }
 
-.dropdown:hover .dropbtn {
-  background-image: url("../../assets/icon/filter.png");
+.dropbtn {
+  background-color: rgba(178, 179, 180, 0.3);
+  width: 1.5vw;
+  display: table-cell;
+  border: 1px solid gray;
 }
 
 form {

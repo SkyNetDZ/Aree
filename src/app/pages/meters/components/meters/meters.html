@@ -2,54 +2,17 @@
   <ngb-accordion #acc="ngbAccordion" activeIds="1">
     <ngb-panel id="1" title="Meters Listing" baCardClass="with-scroll">
       <template ngbPanelContent>
-        <ba-card>
-          <div class="toolbar">
-            <button type="button" class="btn btn-success btn-icon">+</button>
-            <button type="button" class="btn btn-info btn-icon">/</button>
-            <button type="button" class="btn btn-danger btn-icon">-</button>
-          </div>
-          <table class="table table-striped" id="meters-grid">
-            <thead>
-            <tr>
-              <th><input type="checkbox" (change)="selectionChangeAll($event.target)"></th>
-              <th class="align-right">N°</th>
-              <th class="align-right">Name</th>
-              <th class="align-right">Description</th>
-              <th class="align-right">Location</th>
-              <th class="align-right">Nature</th>
-              <th class="align-right">Unit</th>
-              <th class="align-right">Date create</th>
-              <th class="align-right">Last value</th>
-            </tr>
-            </thead>
-            <tbody *ngFor="let item of meters" (click)="getConsumption(item)" [dragula]='"bag-one"'
-                   [dragulaModel]='"meters"'>
-            <tr>
-              <td><input type="checkbox" (change)="selectionChange($event.target)"></td>
-              <td class="align-right">{{ item.Id }}</td>
-              <td class="align-right">{{ item.Name }}</td>
-              <td class="align-right">{{ item.Description }}</td>
-              <td class="align-right">{{ item.LocationId }}</td>
-              <td class="align-right">{{ item.Type }}</td>
-              <td class="align-right">{{ item.TrendId }}</td>
-              <td class="align-right">{{ item.UnitId }}</td>
-              <td class="align-right">{{ item.dateCreation }}</td>
-              <td class="align-right">{{ item.lastValue }}</td>
-            </tr>
-            </tbody>
-          </table>
-        </ba-card>
+        <app-table></app-table>
       </template>
     </ngb-panel>
     <ngb-panel id="2" title="Analyse" (click)="acc.toggle('2')">
       <template ngbPanelContent>
-            <aree-fader [isVisible]="isVisible" [attachedComp]=partone></aree-fader>
+        <aree-fader [isVisible]="isVisible" [attachedComp]=partone></aree-fader>
         <!--<app-heatmap-chart *ngIf="dataTemp" [data]="dataTemp"></app-heatmap-chart>-->
-            <!--<app-line-chart></app-line-chart>-->
-            <!--<app-bar-chart *ngIf="dataTemp" [data]="dataTemp"></app-bar-chart>-->
+        <!--<app-line-chart></app-line-chart>-->
+        <!--<app-bar-chart *ngIf="dataTemp" [data]="dataTemp"></app-bar-chart>-->
         <app-performance-chart></app-performance-chart>
       </template>
     </ngb-panel>
   </ngb-accordion>
-  <app-table></app-table>
 </section>

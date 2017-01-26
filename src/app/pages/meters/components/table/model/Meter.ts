@@ -4,35 +4,25 @@
 export class Meter {
   Id: number = null;
   Name: string = "";
-  AlarmIds: [any];
-  CoefCommonUnit: number = 0;
-  CoefDistribution: number = 0;
-  CoefUnit: number = 0;
-  DailyMax: number = 0;
-  Description: null;
-  Formula: null;
-  IsDiff: false;
-  IsDisabled: false;
   LocationId: number = 0;
-  ParentId: number = null;
-  RefFormula: null;
-  RefSamplePeriod: number = null;
-  ReferenceYear: null;
-  RolloverLimit: number = 0;
   ServiceId: number = 0;
-  SourceMode: 0;
-  ThresholdId: number = null;
-  TrendId: number = null;
-  TrendIds: null;
-  UnitId: null;
-  UseTheoreticalRef: null;
-  Version: 0;
+  UniteId: number = 0;
+  ConsumptionDay: number;
+  ConsumptionWeek: number;
+  ConsumptionMonth: number;
+  ConsumptionYear: number;
+  UniteName: string;
+  Nature: string;
+  LocationName: string;
   children: Meter[];
   expanded: boolean;
   checked: boolean;
+  Color: any;
 
-  constructor(name, children) {
-    this.Name = name;
+  constructor(Object, children) {
+    if (Object != null) {
+      for (var k in Object) this[k] = Object[k];
+    }
     this.children = children;
     this.expanded = true;
     this.checked = false;
@@ -54,4 +44,15 @@ export class Meter {
       d.checkRecursive(state);
     })
   }
+
+  mapIdValue(property: any, mappingItem: string, idValue: number, targetProperty: any) {
+    if (idValue != null) {
+      for (let obj of JSON.parse(localStorage.getItem(mappingItem))) {
+        if (obj['Id'] == idValue) {
+          return this[property] = obj[targetProperty];
+        }
+      }
+    }
+  }
+
 }

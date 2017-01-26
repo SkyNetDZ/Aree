@@ -80,10 +80,24 @@ export class TableRowComponent {
 
   @ViewChildren(TableCellComponent, {read: ViewContainerRef}) cells: QueryList<any>;
 
+  // @Output() selected = new EventEmitter();
+
+  private selectedRow: boolean = false;
+
   private static cells2: Array<any> = [];
 
-  constructor(private resolver: ComponentFactoryResolver) {
-    //console.log(this.cellWidth);
+  // @HostListener('mouseover', ['$event'])
+  // mouseover(event) {
+  //      this.selected.emit(event);
+  // }
+
+
+  // @HostListener('select', ['$event'])
+  // onSelect(event) {
+  //   console.log(event.target);
+  // }
+
+  constructor(private resolver: ComponentFactoryResolver, private el: ElementRef) {
   }
 
 
@@ -93,7 +107,6 @@ export class TableRowComponent {
         TableRowComponent.cells2.push(item);
       })
     }
-    //console.log(TableRowComponent.cells2);
   }
 
   addCell() {
@@ -110,4 +123,12 @@ export class TableRowComponent {
   deleteCell(cell: TableCellComponent) {
   }
 
+
+  selectRowTable(event) {
+    this.selectedRow = event;
+  }
+
+  checkRow(event) {
+    this.selectedRow = !this.selectedRow;
+  }
 }

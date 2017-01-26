@@ -1,36 +1,12 @@
-:host {
-  display: block;
-  background-color: #999999;
-}
-
-.rTable {
-  display: block;
-  width: 100%;
-}
-
-.rTableHeading, .rTableBody, .rTableFoot, .rTableRow {
-  clear: both;
-}
-
-.rTableHead, .rTableFoot {
-  background-color: #DDD;
-  font-weight: bold;
-}
-
-.rTableCell, .rTableHead {
+.rTableCell {
   border-bottom: 1px solid #ffffff;
   float: left;
   height: 30px;
   overflow: visible;
   padding: 3px 1.8%;
   width: 20%;
+  margin: 0 auto;
+  min-width: 5%;
+  min-height: 5%;
 }
 
-.rTable:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
-}

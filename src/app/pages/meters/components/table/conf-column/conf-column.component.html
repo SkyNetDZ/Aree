@@ -1,34 +1,45 @@
 <div class="dropdown">
-  <button class="dropbtn" (click)="onShow()">v</button>
+  <div class="dropbtn" (click)="onShow()"><img src="../../assets/icon/settings.svg"></div>
   <div class="dropdown-content" [ngStyle]="{'display': displayMenu}">
     <form #configForm="ngForm" (ngSubmit)="saveConfig(configForm.value)">
       <div header>
-        <p> Config column : </p>
+        <label>Column Name</label>
+        <input type="text" value="columnName" (change)="addNewConfig($event)" [(ngModel)]="columnName"
+               name="columnName" #consomationef="ngModel">
+        <label>Column Mapping</label>
+        <input type="text" value="dataIndex" (change)="addNewConfig($event)" [(ngModel)]="dataIndex"
+               name="dataIndex" #consomationef="ngModel">
       </div>
       <div content>
         <label>
           <input type="checkbox" value="consommation" (change)="addNewConfig($event)" [(ngModel)]="consommation"
-                 name="consommation" #consomationef="ngModel">
+                 name="consommation" #consomationef="ngModel" checked="true">
           Consommation
         </label>
         <br>
-        <label>
-          <input type="checkbox" value="tendance" (change)="addNewConfig($event)" [(ngModel)]="tendance"
-                 name="tendance">
-          Tendance
-        </label>
+        <!--<label>Date Début </label>-->
+        <!--<input type="date" value="StartDate" (change)="addNewConfig($event)" [(ngModel)]="StartDate"-->
+        <!--name="StartDate">-->
+        <!--<br>-->
+        <!--<label> Date Fin </label>-->
+        <!--<input type="date" value="EndDate" (change)="addNewConfig($event)" [(ngModel)]="EndDate" name="EndDate">-->
+        <!--<br>-->
+        <label> Nature</label>
+        <select type="select" name="nature" [(ngModel)]="nature">
+          <option *ngFor="let n of natures">
+            {{ n }}
+          </option>
+        </select>
         <br>
-        <label>
-          <input type="checkbox" value="date_start" (change)="addNewConfig($event)" [(ngModel)]="dateStart"
-                 name="dateStart">
-          Date Début
-        </label>
+        <label> Type période </label><br>
+        <select type="select" name="Unit" [(ngModel)]="Unit" #period="ngModel">
+          <option *ngFor="let p of periods">
+            {{ p }}
+          </option>
+        </select>
         <br>
-        <label>
-          <input type="checkbox" value="date_end" (change)="addNewConfig($event)" [(ngModel)]="dateEnd" name="dateEnd">
-          Date Fin
-        </label>
-        <br>
+        <label> Nbr Unité Période : </label>
+        <input type="text" value="decalage" [(ngModel)]="decalage" #decalageRef="ngModel" name="decalage">
       </div>
       <div footer>
         <button type="submit">config</button>

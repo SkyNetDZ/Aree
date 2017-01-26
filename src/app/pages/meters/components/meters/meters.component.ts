@@ -100,14 +100,14 @@ export class Meters {
   }
 
   ngOnInit() {
-    this.loadData();
+    //this.loadData();
 
-    this._metersService.loadMeters()
-      .subscribe(
-      data => this.meters = JSON.parse(JSON.stringify(data)),
-      error => console.log(error),
-      () => console.log('Finished')
-      );
+    // this._metersService.loadMeters()
+    //   .subscribe(
+    //   data => this.meters = JSON.parse(JSON.stringify(data)),
+    //   error => console.log(error),
+    //   () => console.log('Finished')
+    //   );
   }
 
   getConsumption(meter: any) {

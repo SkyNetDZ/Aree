@@ -1,4 +1,4 @@
-import {Component, OnInit, Input} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output, HostListener} from '@angular/core';
 import { TableColumnComponent } from '../table-column/table-column.component';
 import { TableRowComponent } from '../table-row/table-row.component';
 
@@ -13,11 +13,27 @@ export class TableCellComponent {
   private parentRow : TableRowComponent;
   private parentColumn : TableColumnComponent;
 
-
+  @Input() index: number;
   @Input() cellWidth: number;
   @Input() padding: number;
 
+  @Output() selected = new EventEmitter<boolean>();
+
+
+  @HostListener('mouseenter', ['$event'])
+  mouseenter(event) {
+    //event.target.parentNode.style.backgroundColor = 'green';
+    this.selected.emit(true);
+  }
+
+  @HostListener('mouseleave', ['$event'])
+  mouseleave(event) {
+    //event.target.parentNode.style.backgroundColor = '';
+    this.selected.emit(false);
+  }
+
   constructor() {
+
   }
 
   handleAddCell() {

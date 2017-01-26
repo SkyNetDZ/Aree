@@ -1,43 +1,13 @@
-.rTable {
-  display: block;
-  width: 100%;
-}
-
-.rTableHeading, .rTableBody, .rTableFoot, .rTableRow {
+.rTableRow {
   clear: both;
 }
-
-.rTableHead, .rTableFoot {
-  background-color: #DDD;
-  font-weight: bold;
-}
-
-.rTableCell, .rTableHead {
-  border: 1px solid #999999;
-  float: left;
-  height: 30px;
-  overflow: hidden;
-  padding: 3px 1.8%;
-  width: 20%;
-  display: inline-block;
-  vertical-align: middle;
-}
-
-.rTable:after {
-  visibility: hidden;
-  display: block;
-  font-size: 0;
-  content: " ";
-  clear: both;
-  height: 0;
-}
-
 .child-row :first-child span {
   padding-left: 10px;
 }
 
 :host {
-  cursor: hand;
+  cursor: pointer;
+  width: 100%;
 }
 
 .icon-expended {
@@ -51,4 +21,8 @@ img {
   -webkit-transform: rotate(-30deg); /* Chrome, Safari, Opera */
   transform: rotate(-30deg);
   margin-right: 3px;
+}
+
+.selected-row {
+  background: red;
 }
