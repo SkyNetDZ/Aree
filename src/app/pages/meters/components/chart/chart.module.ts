@@ -6,12 +6,10 @@ import { LineChartComponent } from './line-chart/line-chart.component';
 import { HeatmapChartComponent } from './heatmap-chart/heatmap-chart.component';
 import { HeatmapService } from './heatmap-chart/heatmap.service';
 
-
-
-
 @NgModule({
   imports: [
-    CommonModule
+    CommonModule,
+    NgModule
   ],
   declarations: [
     ChartComponent,

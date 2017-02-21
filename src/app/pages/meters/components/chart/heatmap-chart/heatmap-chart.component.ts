@@ -1,8 +1,13 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, ViewEncapsulation, HostListener } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, Input, ViewEncapsulation, HostListener, NgZone} from '@angular/core';
 import * as d3 from 'd3';
 import { HeatmapService } from './heatmap.service';
 
-
+export enum Periods {
+  Year = <any> "1",
+  Month = <any> "2",
+  Week = <any> "3",
+  Day = <any> "4",
+}
 
 @Component({
   selector: 'app-heatmap-chart',
@@ -13,7 +18,6 @@ import { HeatmapService } from './heatmap.service';
 export class HeatmapChartComponent implements OnInit {
 
   @ViewChild('heatmapchart') private chartContainer: ElementRef;
-  @ViewChild('rect') private card: any;
   @Input() private data: Array<any>;
   private margin: any = { top: 20, bottom: 20, left: 100, right: 10 };
   private chart: any;
@@ -31,7 +35,14 @@ export class HeatmapChartComponent implements OnInit {
   private svg: any;
   private element: any;
 
-  constructor(private _dataService: HeatmapService) {
+  constructor(private _dataService: HeatmapService, ngZone: NgZone) {
+    // window.onresize
+    //   = (e) => {
+    //   ngZone.run(() => {
+    //     this.width = window.innerWidth ;
+    //     this.height = window.innerHeight;
+    //   });
+    // };
 
   }
 
@@ -85,7 +96,7 @@ export class HeatmapChartComponent implements OnInit {
   initSvg() {
     this.element = this.chartContainer.nativeElement;
     this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
-    this.height = 1000;
+    this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
     this.days = d3.timeDays(new Date(2016, 9, 1), new Date(2016, 10, 1));
     this.times = d3.timeHours(new Date(2016, 9, 1), new Date(2016, 9, 2));
     this.gridSize = Math.floor(this.width / 24);

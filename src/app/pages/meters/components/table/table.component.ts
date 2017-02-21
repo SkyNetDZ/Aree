@@ -1,30 +1,18 @@
 import {
-  Directive,
-  Input,
   Output,
   EventEmitter,
-  HostBinding,
-  HostListener,
-  TemplateRef,
   Component,
-  OnInit,
-  ElementRef,
-  ViewChild,
-  ViewChildren,
-  AfterViewInit,
-  ViewContainerRef,
-  QueryList,
-  ContentChildren,
-  ComponentFactoryResolver, NgZone
+  ComponentFactoryResolver, NgZone, OnInit
 }
   from '@angular/core';
 import {Directory} from './model/Directory';
-import {TableCellComponent} from './table-cell/table-cell.component';
-import {TableRowComponent} from './table-row/table-row.component';
 import {Meter} from './model/Meter';
 import {TableConfigService} from "./table-config.service";
 import {TableService} from "./service/table.service";
-import {TableColumnComponent} from "./table-column/table-column.component";
+import {State} from "./store/state";
+import {Store} from "@ngrx/store";
+import {TableAction} from "./store/action";
+import {error} from "util";
 
 
 // ================================================================================= //
@@ -36,103 +24,251 @@ import {TableColumnComponent} from "./table-column/table-column.component";
 // export class TestComponent {
 // }
 
+export class column {
+
+  title: string;
+  name: string;
+  dataIndex: string;
+  freeze: boolean;
+  configStyle: any;
+  configData: any;
+  sort: boolean;
+  hidden: boolean;
+  filter: boolean;
+
+}
+
 @Component({
   selector: 'app-table',
-  // templateUrl: './table.component.html',
-  styleUrls: ['table.component.scss'],
-  template: `
-  <button (click)="onClickAddColumn()">add column</button>
-  <div class="rTable" #table>
-    <div class="rTableRow" #header>
-      <div *ngFor="let header of columns ; let i = index">
-        <div class="rTableHead" [ngStyle]="{'width': (width / columns.length) +'px' }">
-           <div style="
-           padding: 3px 1.8%;align-self: stretch;margin: auto;font-size: 0.8vw">{{ header.columnName.toLocaleUpperCase()}}</div>
-           <div style="float: right"><app-filter></app-filter></div>   
-           <div style="float: right"><app-conf-column (configChange)="handleAddNewColumnConfig($event,i)" (configSave)="handleSaveColumnConfig($event,i)" ></app-conf-column></div>
-        </div>
-      </div>
-    </div>
-    <app-table-row [children]="children" [padding]="5" [columns]="columns" [cellWidth]="(width / columns.length)"></app-table-row>
-  </div>
-  `
+  templateUrl: './table.component.html',
+  styleUrls: ['table.component.scss']
 })
-export class TableComponent {
+export class TableComponent implements OnInit {
 
-  condition: boolean = true;
+  private testData: [any] = [{
+    "Id": 1,
+    "Name": "Eclairage bureaux",
+    "LocationId": 3,
+    "ServiceId": 2,
+    "UniteId": 19,
+    "Niveau": 0,
+    "AlarmIds": null,
+    "CoefCommonUnit": 0,
+    "CoefDistribution": 100,
+    "CoefUnit": 1,
+    "DailyMax": 0,
+    "Description": null,
+    "Formula": null,
+    "IsDiff": false,
+    "IsDisabled": false,
+    "ParentId": null,
+    "RefFormula": null,
+    "RefSamplePeriod": 4,
+    "ReferenceYear": null,
+    "RolloverLimit": 0,
+    "SourceMode": 0,
+    "ThresholdId": null,
+    "TrendId": 4,
+    "TrendIds": null,
+    "UnitId": null,
+    "UseTheoreticalRef": null,
+    "Version": 0,
+    "children": [{
+      "Id": 5,
+      "Name": "Climatisation",
+      "LocationId": 1,
+      "ServiceId": 5,
+      "UniteId": 19,
+      "Niveau": 0,
+      "AlarmIds": null,
+      "CoefCommonUnit": 0,
+      "CoefDistribution": 100,
+      "CoefUnit": 1,
+      "DailyMax": 0,
+      "Description": null,
+      "Formula": null,
+      "IsDiff": false,
+      "IsDisabled": false,
+      "ParentId": 1,
+      "RefFormula": null,
+      "RefSamplePeriod": 4,
+      "ReferenceYear": null,
+      "RolloverLimit": 0,
+      "SourceMode": 0,
+      "ThresholdId": null,
+      "TrendId": 8,
+      "TrendIds": null,
+      "UnitId": null,
+      "UseTheoreticalRef": null,
+      "Version": 0,
+      "children": [],
+      "expanded": true,
+      "checked": false,
+      "Nature": "Climatisation",
+      "Color": "#FF0000FF",
+      "UniteName": "kWh",
+      "LocationName": "Batiment 1"
+    }],
+    "expanded": true,
+    "checked": false,
+    "Nature": "Eclairage",
+    "Color": "#FFFFCC00",
+    "UniteName": "kWh",
+    "LocationName": "Bureaux"
+  }, {
+    "Id": 6,
+    "Name": "Eclairage RC",
+    "LocationId": 2,
+    "ServiceId": 2,
+    "UniteId": 19,
+    "Niveau": 0,
+    "AlarmIds": null,
+    "CoefCommonUnit": 0,
+    "CoefDistribution": 100,
+    "CoefUnit": 0.5,
+    "DailyMax": 0,
+    "Description": null,
+    "Formula": null,
+    "IsDiff": false,
+    "IsDisabled": false,
+    "ParentId": null,
+    "RefFormula": null,
+    "RefSamplePeriod": 4,
+    "ReferenceYear": null,
+    "RolloverLimit": 0,
+    "SourceMode": 0,
+    "ThresholdId": null,
+    "TrendId": 5,
+    "TrendIds": null,
+    "UnitId": null,
+    "UseTheoreticalRef": null,
+    "Version": 0,
+    "children": [{
+      "Id": 4,
+      "Name": "Chauffage",
+      "LocationId": 1,
+      "ServiceId": 1,
+      "UniteId": 19,
+      "Niveau": 0,
+      "AlarmIds": null,
+      "CoefCommonUnit": 0,
+      "CoefDistribution": 100,
+      "CoefUnit": 1,
+      "DailyMax": 0,
+      "Description": null,
+      "Formula": null,
+      "IsDiff": false,
+      "IsDisabled": false,
+      "ParentId": 6,
+      "RefFormula": null,
+      "RefSamplePeriod": 4,
+      "ReferenceYear": null,
+      "RolloverLimit": 0,
+      "SourceMode": 0,
+      "ThresholdId": null,
+      "TrendId": 7,
+      "TrendIds": null,
+      "UnitId": null,
+      "UseTheoreticalRef": null,
+      "Version": 0,
+      "children": [{
+        "Id": 3,
+        "Name": "Eau",
+        "LocationId": 1,
+        "ServiceId": 4,
+        "UniteId": 80,
+        "Niveau": 0,
+        "AlarmIds": null,
+        "CoefCommonUnit": 0,
+        "CoefDistribution": 100,
+        "CoefUnit": 0.01,
+        "DailyMax": 0,
+        "Description": null,
+        "Formula": null,
+        "IsDiff": false,
+        "IsDisabled": false,
+        "ParentId": 4,
+        "RefFormula": null,
+        "RefSamplePeriod": 4,
+        "ReferenceYear": null,
+        "RolloverLimit": 0,
+        "SourceMode": 0,
+        "ThresholdId": null,
+        "TrendId": 6,
+        "TrendIds": null,
+        "UnitId": null,
+        "UseTheoreticalRef": null,
+        "Version": 0,
+        "children": [],
+        "expanded": true,
+        "checked": false,
+        "Nature": "Eau",
+        "Color": "#FF0000FF",
+        "UniteName": "m³",
+        "LocationName": "Batiment 1"
+      }],
+      "expanded": true,
+      "checked": false,
+      "Nature": "Chauffage",
+      "Color": "#FFFF0000",
+      "UniteName": "kWh",
+      "LocationName": "Batiment 1"
+    }],
+    "expanded": true,
+    "checked": false,
+    "Nature": "Eclairage",
+    "Color": "#FFFFCC00",
+    "UniteName": "kWh",
+    "LocationName": "Rez-de-chaussée"
+  }];
+
+  initalNumberColumns: number;
+
+  @Output() dataCahrt = new EventEmitter();
 
   children: Array<Meter> = [];
 
-  globalStyle: any;
-
   private model: Meter;
+
+  private treeView: boolean = true; //Tree View activated
 
   private width: number = window.innerWidth - 300;
 
   private height: number = window.innerHeight;
 
   private columns: Array<any> = [
-    // {columnName: 'N°', dataIndex: 'Id'},
-    {columnName: 'Name', dataIndex: 'Name', configCol: {}},
-    {columnName: 'Unité', dataIndex: 'UniteName', configCol: {}},
-    {columnName: 'Jour', dataIndex: 'ConsumptionDay', configCol: {}},
-    {columnName: 'Semaine', dataIndex: 'ConsumptionWeek', configCol: {}},
-    {columnName: 'Mois', dataIndex: 'ConsumptionMonth', configCol: {}},
-    {columnName: 'Année', dataIndex: 'ConsumptionYear', configCol: {}},
-    {columnName: 'Emplacement', dataIndex: 'LocationName', configCol: {}},
+    {columnName: 'Name', dataIndex: 'Name'},
+    {columnName: 'Nature', dataIndex: 'Nature'},
+    {columnName: 'Unité', dataIndex: 'UniteName'},
+    {columnName: 'Emplacement', dataIndex: 'LocationName'},
   ];
 
-  // private columns : Array<TableColumnComponent>;
+  private data = [];
+  freezedColumns = [];
+  static margin: number;
+  private cellWidth: number = 100;
 
-  @ViewChild('table', {read: ViewContainerRef}) container;
-
-  @ViewChildren(TableRowComponent, {read: ViewContainerRef}) rows: QueryList<TableRowComponent>;
-
-  @ViewChild('header', {read: ViewContainerRef}) header;
-
-  @ViewChild('column') column;
-
-  @ViewChild(TableRowComponent, {read: ViewContainerRef}) row;
-
-  @ViewChild(TableCellComponent, {read: ViewContainerRef}) cell: TableCellComponent;
-
-  @ContentChildren(TableRowComponent, {read: ViewContainerRef}) items: QueryList<TableRowComponent>;
-
-  // @HostListener('select', ['$event'])
-  // onSelect(event) {
-  //   console.log(event.target);
-  // }
+  constructor(private resolver: ComponentFactoryResolver, private _confTable: TableConfigService, private _metersService: TableService, private ngZone: NgZone, private  store: Store<State>) {
 
 
-  // @HostListener('window:resize', ['$event'])
-  // onResize(event) {
-  //   console.log(event.target.innerWidth);
-  // }
+    store.subscribe(
+      state => console.log(state)
+    );
 
 
-  widgetRef;
-  widgetRef2;
-  numbreLignes: number;
-  numberColumns: number;
-
-  private data: Array<any>;
-  private consom: any;
-
-  constructor(private resolver: ComponentFactoryResolver, private _confTable: TableConfigService, private _metersService: TableService, private ngZone: NgZone) {
-
+    this.initalNumberColumns = this.columns.length;
     // this.columns = new Array();
     //
     // let nameColumn = new TableColumnComponent("name",this.model,this.model.Unite.Name);
 
-
     //Adaptation width of table
-    window.onresize
-      = (e) => {
-      ngZone.run(() => {
-        this.width = window.innerWidth - 300;
-        this.height = window.innerHeight;
-      });
-    };
+    // window.onresize
+    //   = (e) => {
+    //     ngZone.run(() => {
+    //       this.width = window.innerWidth - 300;
+    //       this.height = window.innerHeight;
+    //     });
+    //   };
 
 
     this.model = new Meter(null, []);
@@ -146,10 +282,10 @@ export class TableComponent {
     //   }
     // }
 
-    console.log(this.columns);
     //Load configuration
     this.columns = this._confTable.loadConfg() != null && this._confTable.loadConfg().length > 0 ? this._confTable.loadConfg() : this.columns;
 
+    this.loadFreezedColumns();
     //Load Location and Units
     this._metersService.loadMappingLocation()
       .subscribe(
@@ -173,12 +309,12 @@ export class TableComponent {
       );
 
     //Load Data
-    this._metersService.loadMeters()
-      .subscribe(
-        d => this.formatData(d),
-        error => console.log(error),
-        () => console.log('finished')
-      );
+    // this._metersService.loadMeters()
+    //   .subscribe(
+    //   d => this.formatData(d),
+    //   error => console.log(error),
+    //   () => console.log('finished')
+    //   );
 
 
     this._metersService.getConsumption()
@@ -188,38 +324,38 @@ export class TableComponent {
         () => console.log('finished consommation')
       );
 
-    for (let column of this.columns) {
-      if (column.configCol != {}) {
-        this._metersService.getCostumValue(column.configCol)
-          .subscribe(
-            d => this.loadValueToMeter(null, this.children, JSON.parse(JSON.stringify(d)), column.dataIndex),
-            error => console.log(error),
-            () => console.log('finished ')
-          );
-      }
-    }
+    // for (let column of this.columns) {
+    //   if (column.configCol != null && Object.keys(column.configCol).length > 0) {
+    //     this._metersService.getCostumValue(column['configCol'])
+    //       .subscribe(
+    //       d => this.loadValueToMeter(null, this.children, JSON.parse(JSON.stringify(d)), column.dataIndex),
+    //       error => console.log(error),
+    //       () => console.log('finished ')
+    //       );
+    //   }
+    // }
 
   }
 
-  private loadValueToMeter(m: Meter, childs: Array<any>, d: any, dataInex: string) {
+  private loadValueToMeter(m: Meter, childs: Array<any>, d: any, dataIndex: string) {
     let me = this;
     childs.forEach(function (model) {
-      let o = d['Data'].filter(function (el) {
+      let o = d['Items'].filter(function (el) {
         return el.EntityId == model.Id;
       });
-      let index = d['Data'].indexOf(o[0]);
+      let index = d['Items'].indexOf(o[0]);
       if (model.children.length == 0) {
-        model['dataIndex'] = Math.round(d['Data'][index]['Items'][0].Value);
+        model[dataIndex] = Math.round(d['Items'][index].Values);
       } else {
-        me.loadConsumptionToMeter(model, model.children, d);
+        me.loadValueToMeter(model, model.children, d, dataIndex);
       }
     });
     if (m != null) {
-      let o = d['Data'].filter(function (el) {
+      let o = d['Items'].filter(function (el) {
         return el.EntityId == m.Id;
       });
-      let index = d['Data'].indexOf(o[0]);
-      m['dataIndex'] = Math.round(d['Data'][index]['Items'][0].Value);
+      let index = d['Items'].indexOf(o[0]);
+      m[dataIndex] = Math.round(d['Items'][index].Values);
     }
   }
 
@@ -251,66 +387,77 @@ export class TableComponent {
     }
   }
 
-  private formatData(d: Array<any>) {
-    this.data = JSON.parse(JSON.stringify(d));
-    let metersId = [];
-    for (let model of this.data) {
-      metersId.push(model.Id);
-      this.fatchParent(model, new Meter(model, []));
+  private formatData(d) {
+    // this.data = JSON.parse(JSON.stringify(d));
+    // let metersId = [];
+    // metersId.push(Object.keys(d[0]));
+    // for (let i of Object.keys(d[0])) {
+    //   this.data.push(d[0][i]);
+    // }
+    // for (let i of Object.keys(d[0])) {
+    //   this.fatchParent(d[0][i], new Meter(d[0][i], []));
+    // }
+    // localStorage.setItem('meters_id', JSON.stringify(metersId));
+    console.log(d);
+    if (d == null || d.length == 0) {
+      console.log('liste vide')
+    } else {
+      var e = [];
+      for (let i of Object.keys(d)) {
+        e.push(d[i])
+      }
+      this.treeify(e, 'Id', 'ParentId', 'children')
     }
-    localStorage.setItem('meters_id', JSON.stringify(metersId));
   }
 
-  fatchParent(meter: any, meter_: Meter) {
-    if (meter.ParentId != null) {  // il a un parent
-      let parent = this.data.filter(function (i, n) {
-        return i.Id === meter.ParentId;
-      })[0];
-      let parentMeter = new Meter(parent, [meter_]);
-      parentMeter.mapIdValue('Nature', 'mapping_nature', parentMeter.ServiceId, 'Name');
-      parentMeter.mapIdValue('Color', 'mapping_nature', parentMeter.ServiceId, 'Color');
-      parentMeter.mapIdValue('UniteId', 'mapping_nature', parentMeter.ServiceId, 'UnitId');
-      parentMeter.mapIdValue('UniteName', 'mapping_unit', parentMeter.UniteId, 'Name');
-      parentMeter.mapIdValue('LocationName', 'mapping_location', parentMeter.LocationId, 'Name');
-      // console.log(parentMeter);
-      // console.log("fils : " + meter.Name);
-      // console.log("parent : " + parent.Name);
-      this.fatchParent(parent, parentMeter);
-    } else { // est un noeud racine
-      let roots = this.children.filter(m => m.Name == meter.Name);
-      if (roots.length > 0) {
-        meter_.mapIdValue('Nature', 'mapping_nature', meter_.ServiceId, 'Name');
-        meter_.mapIdValue('Color', 'mapping_nature', meter_.ServiceId, 'Color');
-        meter_.mapIdValue('UniteId', 'mapping_nature', meter_.ServiceId, 'UnitId');
-        meter_.mapIdValue('UniteName', 'mapping_unit', meter_.UniteId, 'Name');
-        meter_.mapIdValue('LocationName', 'mapping_location', meter_.LocationId, 'Name');
-        console.log(meter_);
-        roots[0].children = meter_.children;
+  private treeify(list: Array<any>, idAttr, parentAttr, childrenAttr) {
+    if (!idAttr) idAttr = 'Id';
+    if (!parentAttr) parentAttr = 'ParentId';
+    if (!childrenAttr) childrenAttr = 'children';
+
+    var treeList = [];
+    var lookup = {};
+    list.forEach(function (obj) {
+      lookup[obj[idAttr]] = obj;
+      obj[childrenAttr] = [];
+    });
+    list.forEach(function (obj) {
+      var meter = new Meter(obj, obj[childrenAttr]);
+      meter.mapIdValue('Nature', 'mapping_nature', meter.ServiceId, 'Name');
+      meter.mapIdValue('Color', 'mapping_nature', meter.ServiceId, 'Color');
+      meter.mapIdValue('UniteId', 'mapping_nature', meter.ServiceId, 'UnitId');
+      meter.mapIdValue('UniteName', 'mapping_unit', meter.UniteId, 'Name');
+      meter.mapIdValue('LocationName', 'mapping_location', meter.LocationId, 'Name');
+      if (obj[parentAttr] != null) {
+        lookup[obj[parentAttr]][childrenAttr].push(meter);
       } else {
-        if (meter.children == null) {
-          meter.children = [];
-        }
-        meter_.mapIdValue('Nature', 'mapping_nature', meter_.ServiceId, 'Name');
-        meter_.mapIdValue('Color', 'mapping_nature', meter_.ServiceId, 'Color');
-        meter_.mapIdValue('UniteId', 'mapping_nature', meter_.ServiceId, 'UnitId');
-        meter_.mapIdValue('UniteName', 'mapping_unit', meter_.UniteId, 'Name');
-        meter_.mapIdValue('LocationName', 'mapping_location', meter_.LocationId, 'Name');
-        console.log(meter_);
-        this.children.push(meter_);
+        treeList.push(meter);
       }
-    }
-  }
+    });
+    console.log(JSON.stringify(treeList));
+    this.children = treeList;
+    //return treeList;
+  };
+
 
   ngOnInit() {
-    // console.log(this.contentChildren);
+    this._metersService.loadMeters()
+      .subscribe(
+        d => this.store.dispatch(new TableAction(d)),
+        error => console.log('error loading'),
+        () => this.store.forEach(s => this.formatData(s.storeData.meters))
+      );
+
   }
-
-  // ngAfterViewInit() {
-  // }
-
 
   onClickAddColumn() {
     this.columns.push({columnName: 'new column', dataIndex: '', configCol: {}});
+  }
+
+  onTreeView() {
+    this.treeView = !this.treeView;
+    let msg = this.treeView ? 'activated' : 'disabled';
+    alert('Tree View ' + msg)
   }
 
   handleAddNewColumnConfig(event, index) {
@@ -322,26 +469,74 @@ export class TableComponent {
 
   handleSaveColumnConfig(event, index) {
     let newColumns = this.columns;
-    // let keys = Object.keys(JSON.parse(JSON.stringify(event)));
-    // console.log(keys);
-    // for (var k in keys) {
-    //   newColumns[index] = {columnName: keys[k], dataIndex: keys[k]};
-    // }
-    //
-    // {
-    //    meusure : value ,
-    //    Duration : {
-    //               Unit: 7,
-    //               Value: 1
-    //                },
-    //    EndDate : "\/Date(-62135596800000+0000)\/",
-    //    StartDate: "\/Date(1483225200000+0100)\/"
-    // }
-    newColumns[index]['columnName'] = JSON.parse(JSON.stringify(event))['columnName'];
-    newColumns[index]['dataIndex'] = JSON.parse(JSON.stringify(event))['dataIndex'];
-    newColumns[index]['configCol'] = JSON.parse(JSON.stringify(event));
+    let confParam = JSON.parse(JSON.stringify(event));
+    newColumns[index]['dataIndex'] = (confParam['data'] != null && confParam['data'] != "") ? confParam['data'] : 'CustomDataIndex_' + index;
+    newColumns[index]['configCol'] = confParam;
+    newColumns[index]['columnName'] = (confParam['name'] != null) ? confParam['name'] : "Column Param";
     this._confTable.saveConfig(newColumns);
+    this.loadFreezedColumns();
   }
 
+  loadChartData(event) {
+    console.info('load data to parent meter ');
+    this.dataCahrt.emit(event);
+  }
+
+  drag(event, indexSource) {
+    event.dataTransfer.setData("column", JSON.stringify(this.columns[indexSource]));
+    event.dataTransfer.setData("index", indexSource);
+  }
+
+  allowDrop(event) {
+    event.preventDefault();
+  }
+
+  drop(event, indexTarget) {
+    event.preventDefault();
+    let data = event.dataTransfer.getData("column");
+    let ind = parseInt(event.dataTransfer.getData("index"));
+    var aux = this.columns[ind];
+    var b = [].concat(this.columns.slice(0, ind), this.columns.slice(ind + 1));
+    this.columns = [].concat(b.slice(0, indexTarget), JSON.parse(data), b.slice(indexTarget));
+  }
+
+  freezedColumn(index: number, cell: any) {
+    if (cell != null && cell.configCol != null) {
+      return cell.configCol.freez;
+    }
+    return index == 0;
+  }
+
+  adaptOffset(index: number, cell: any) {
+    let offset: number;
+    let indexFreezed = this.freezedColumns.findIndex(o => Object.is(o, cell));
+    if (indexFreezed > -1) {
+      offset = (indexFreezed + 1) * this.cellWidth + 10;
+    } else {
+      offset = index * this.cellWidth + 10;
+    }
+    return offset;
+  }
+
+  isFreezedColumn(index: number, header: any) {
+    let obj = this.freezedColumns.find(o => o.columnName === header.columnName);
+    if (obj != null || index == 0) {
+      return true;
+    }
+    return false;
+  }
+
+  get staticMargin() {
+    return TableComponent.margin;
+  }
+
+  loadFreezedColumns() {
+    for (let c of this.columns) {
+      if (c.configCol != null && c.configCol.freez) {
+        this.freezedColumns.push(c);
+      }
+    }
+    TableComponent.margin = (this.freezedColumns.length == 0) ? 90 : (this.freezedColumns.length * this.cellWidth) + 90;
+  }
 
 }

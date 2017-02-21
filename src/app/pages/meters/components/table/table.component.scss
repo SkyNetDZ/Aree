@@ -1,18 +1,29 @@
-$font-stack: Helvetica, sans-serif;
-$primary-color: red;
+//$font-stack: Helvetica, sans-serif;
+//$primary-color: red;
+//
+//:host {
+//  font: 100% $font-stack;
+//  color: $primary-color;
+//  padding: 10px;
+//  // margin: 5px;
+//  //overflow-x:scroll;
+//  //display: block;
+//  //margin-left: 110px;
+//}
 
 :host {
-  font: 100% $font-stack;
-  color: $primary-color;
+  background-color: white;
 }
-
 .rTable {
   display: block;
-  width: 100%;
+  width: 50%;
   padding-top: 10px;
   padding-bottom: 10px;
   background-color: rgba(255, 255, 255, 0.12);
   color: #000000;
+  overflow-x: scroll;
+  //margin-left: 110px;
+  width: auto;
 }
 
 .rTableHeading, .rTableBody, .rTableFoot, .rTableRow {
@@ -22,27 +33,26 @@ $primary-color: red;
 .rTableHead, .rTableFoot {
   background-color: #d9d9d9;
   font-weight: bold;
-  display: flex;
+  display: table;
   flex-direction: row;
   resize: horizontal;
-  overflow: hidden;
+  overflow-x: scroll;
+  position: relative;
+  vertical-align: bottom;
+  text-overflow: ellipsis;
+  line-height: 24px;
+  letter-spacing: 0;
+  height: 48px;
+  font-size: 12px;
+  color: rgba(0, 0, 0, .54);
+  box-sizing: border-box;
+  padding: 0 18px 12px 18px;
+  text-align: right;
 }
 
 .rTableHead:after {
-  display: block;
   content: "";
   clear: both;
-}
-
-.rTableCell {
-  border: 1px solid #999999;
-  float: left;
-  height: 30px;
-  padding: 3px 1.8%;
-  width: 20%;
-  display: inline-block;
-  vertical-align: middle;
-  resize: both;
 }
 
 .rTable:after {
@@ -54,18 +64,31 @@ $primary-color: red;
   height: 0;
 }
 
-:host {
-  padding: 10px;
-  margin: 5px;
-}
-
 .rTableHead {
   border: 1px solid rgba(128, 128, 128, 0.18);
   height: 30px;
   overflow: visible;
-  width: 20%;
+  width: auto;
+  min-width: 100px;
   align-content: stretch;
   align-items: stretch;
   float: left;
   resize: horizontal;
+  display: flex;
+  flex-direction: row;
+  white-space: nowrap;
 }
+
+.freezed-cell {
+  position: absolute;
+  top: auto;
+  //left:10px;
+  //width: auto;
+  background-color: gray;
+}
+
+.rTableRow {
+  clear: both;
+  display: flex;
+}
+

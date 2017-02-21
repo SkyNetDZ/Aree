@@ -11,7 +11,8 @@ export class TableService {
   private urlUnit: string = 'http://' + this.serverHost + '/AREEService/Units';
   private urlNature: string = 'http://' + this.serverHost + '/AREEService/Natures';
   private urlConsommation: string = 'http://' + this.serverHost + '/AREEService/GetConsumptionData';
-  private urlCostumValue: string = 'http://' + this.serverHost + '/AREEService/GetConsumptionHistoryEx';
+  private urlHistotry: string = 'http://' + this.serverHost + '/AREEService/GetConsumptionHistoryEx';
+  private urlCostumValue: string = 'http://' + this.serverHost + '/AREEService/GetMeterData';
   private socket: Rx.Subject<MessageEvent>;
 
   constructor(private _http: Http) {
@@ -110,37 +111,62 @@ export class TableService {
     return this._http.post(this.urlConsommation, body, headers).map(res => res.json());
   }
 
-  //"configCol":{"columnName":"test","dataIndex":"testColumn","StartDate":"2017-01-23","EndDate":"2017-01-25","nature":"Energie final","Unit":"Semaine"}
-  public getCostumValue(config: Object) {
-    if (config != null && config != {}) {
-      let headers = new Headers();
-      let body = {
-        "SessionKey": localStorage.getItem('session_key'),
-        "DontRoundPeriod": false,  // decalgae des dates
-        "Duration": {
-          "Unit": 5,
-          "Value": 1
-        },
-        "EndDate": "\/Date(" + Date.parse(config['EndDate']) + "+0000)\/",
-        "EntityType": 0,
-        "Id": 1, // id row
-        "IncludeRef": true,
-        "NatureId": null,//group - emplacement
-        "NoNature": false,// groupage par nature
-        "NoTariff": false,// groupage par période tarif
-        "Normalized": false,// comparaison
-        "ObjectId": null,
-        "OnlyRef": false,
-        "PerAreaUnit": false,
-        "PerPeriod": 0,
-        "Reference": null,
-        "SampleDuration": { //Echantillonnage
-          "Unit": 6,
-          "Value": 1
-        },
-        "StartDate": "\/Date(" + Date.parse(config['StartDate']) + "0100)\/"
-      };
-      return this._http.post(this.urlCostumValue, body, headers).map(res => res.json());
-    }
+  public getConsumptionPerPeriod(idMeter: number) {
+    let headers = new Headers();
+    let body = {
+      "SessionKey": localStorage.getItem('session_key'),
+      "DontRoundPeriod": false,
+      "Duration": {
+        "Unit": 7,
+        "Value": 1
+      },
+      "EndDate": "/Date(-62135596800000+0000)/",
+      "EntityType": 0,
+      "Id": idMeter,
+      "IncludeRef": true,
+      "NatureId": null,
+      "NoNature": false,
+      "NoTariff": false,
+      "Normalized": false,
+      "ObjectId": null,
+      "OnlyRef": false,
+      "PerAreaUnit": false,
+      "PerPeriod": 0,
+      "Reference": null,
+      "SampleDuration": {
+        "Unit": 6,
+        "Value": 1
+      },
+      "StartDate": "/Date(" + new Date(2015, 0, 1).getTime() + "+0100)/"
+    };
+    return this._http.post(this.urlHistotry, body, headers).map(res => res.json());
   }
-}
+
+  public getCostumValue(config: Object) {
+    let options = JSON.parse(JSON.stringify(config));
+    let headers = new Headers();
+    let body = {
+        "SessionKey": localStorage.getItem('session_key'),
+        "EntityType": 0,
+        "EntityIds": JSON.parse(localStorage.getItem('meters_id')),
+        "Items": {
+          "Type": parseInt(options['dataType']),
+          "Date": "\/Date(" + Date.now() + "+100)\/",
+          "Start": parseInt(options['periodUnit']),
+          "Offset": parseInt(options['offsetPeriod']),
+          "OffsetUnit": parseInt(options['periodUnit']),
+          "Duration": parseInt(options['duration']),
+          "DurationUnit": parseInt(options['durationUnit']),
+          "Period": parseInt(options['periodUnit']),
+          "NatureId": parseInt(options['nature']),
+          "ConsumptionType": 0,
+          "IsReference": false,
+          "IsReferenceDiff": false,
+          "PerAreaUnit": false
+        }
+      }
+      ;
+    return this._http.post(this.urlCostumValue, body, headers).map(res => res.json());
+  }
+  }
+//{"columnName":"Column Param","dataIndex":"CustomDataIndex_7","configCol":{"dataType":"9","nature":"0","periodUnit":"7","offsetPeriod":"1","durationUnit":"6","duration":"3"}}]"

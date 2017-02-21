@@ -32,6 +32,7 @@ import { BarChartComponent } from './components/chart/bar-chart/bar-chart.compon
 import { HeatmapService } from './components/chart/heatmap-chart/heatmap.service';
 import {PerformanceChartComponent} from './components/chart/performance-chart/performance-chart.component';
 import {ConfColumnService} from "./components/table/conf-column/conf-column.service";
+import {DataGridComponent} from "./components/dataGrid/dataGrid.component";
 
 
 @NgModule({
@@ -63,7 +64,8 @@ import {ConfColumnService} from "./components/table/conf-column/conf-column.serv
     BarChartComponent,
     HeatmapChartComponent,
     LineChartComponent,
-    PerformanceChartComponent
+    PerformanceChartComponent,
+    DataGridComponent
     // TestComponent
   ],
   providers: [

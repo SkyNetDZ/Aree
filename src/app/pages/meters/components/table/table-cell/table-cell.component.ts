@@ -1,11 +1,12 @@
-import {Component, OnInit, Input, EventEmitter, Output, HostListener} from '@angular/core';
+import {Component, OnInit, Input, EventEmitter, Output, HostListener, ViewEncapsulation} from '@angular/core';
 import { TableColumnComponent } from '../table-column/table-column.component';
 import { TableRowComponent } from '../table-row/table-row.component';
 
 @Component({
   selector: 'app-table-cell',
   templateUrl: 'table-cell.component.html',
-  styleUrls: ['table-cell.component.css']
+  styleUrls: ['table-cell.component.css'],
+  // encapsulation: ViewEncapsulation.Native
 })
 export class TableCellComponent {
 
@@ -16,10 +17,7 @@ export class TableCellComponent {
   @Input() index: number;
   @Input() cellWidth: number;
   @Input() padding: number;
-
   @Output() selected = new EventEmitter<boolean>();
-
-
   @HostListener('mouseenter', ['$event'])
   mouseenter(event) {
     //event.target.parentNode.style.backgroundColor = 'green';

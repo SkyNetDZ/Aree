@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Http, Jsonp, Headers, URLSearchParams} from '@angular/http';
+import {local} from "d3-selection";
 
 @Injectable()
 export class MetersService {
@@ -16,8 +17,7 @@ export class MetersService {
     let params = new URLSearchParams();
     params.set('session', localStorage.getItem('session_key'));
     return this._http.get(this.urlMeters, {search: params})
-      .map(res => res.json())
-      .map(d => console.log(d.json()));
+      .map(res => res.json());
   }
 
   public getResponsive(padding, offset) {
@@ -49,9 +49,12 @@ export class MetersService {
   }
 
   public getConsumption(meter: any) {
+    console.log('from meter compoenent ');
     let headers = new Headers();
+    let params = new URLSearchParams();
+    params.set('session', localStorage.getItem('session_key'));
     let body = {
-      "SessionKey": "ae420b48-7c80-47b7-9c9d-ed527697dcd7",
+      "SessionKey": localStorage.getItem('session_key'),
       "EntityIds": [ // id rows
         1,
         2,
@@ -65,22 +68,22 @@ export class MetersService {
         {
           "Duration": 1, // nombre units période
           "PeriodUnit": 4, // type de unité période
-          "Start": "\/Date(1485190969544+0100)\/"
+          "Start": "\/Date(" + Date.now() + "+0100)\/"
         },
         {
           "Duration": 1,
           "PeriodUnit": 5,
-          "Start": "\/Date(1485190969544+0100)\/"
+          "Start": "\/Date(" + Date.now() + "+0100)\/"
         },
         {
           "Duration": 1,
           "PeriodUnit": 6,
-          "Start": "\/Date(1485190969544+0100)\/"
+          "Start": "\/Date(" + Date.now() + "+0100)\/"
         },
         {
           "Duration": 1,
           "PeriodUnit": 7,
-          "Start": "\/Date(1485190969544+0100)\/"
+          "Start": "\/Date(" + Date.now() + "+0100)\/"
         }
       ],
       "ServiceId": null,

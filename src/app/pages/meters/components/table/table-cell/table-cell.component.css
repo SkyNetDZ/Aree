@@ -2,11 +2,21 @@
   border-bottom: 1px solid #ffffff;
   float: left;
   height: 30px;
-  overflow: visible;
-  padding: 3px 1.8%;
-  width: 20%;
+  width: auto;
   margin: 0 auto;
   min-width: 5%;
   min-height: 5%;
+  max-width: 200px;
+  /*padding: 5px 6px 5px;*/
+  text-align: center;
+  white-space: nowrap;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+:host {
+  display: table-cell;
+
 }
 

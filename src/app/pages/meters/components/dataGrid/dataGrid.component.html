@@ -1,0 +1,40 @@
+<!--<button class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-js-ripple-effect mdl-button&#45;&#45;accent"-->
+<!--(click)="onClickAddColumn()">-->
+<!--add column-->
+<!--</button>-->
+<!--<button class="mdl-button mdl-js-button mdl-button&#45;&#45;raised mdl-js-ripple-effect mdl-button&#45;&#45;accent"-->
+<!--(click)="onTreeView()">-->
+<!--Tree View-->
+<!--</button>-->
+
+<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+  <thead [ngStyle]="{display: headerHidden ? 'none' : ''}">
+  <tr>
+    <th *ngFor="let column of columns; let j = index">
+      {{ column.columnName}}
+      <button id="'demo-menu-lower-right'+j"
+              class="mdl-button mdl-js-button mdl-button--icon">
+        <i class="material-icons">more_vert</i>
+      </button>
+      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+          for="'demo-menu-lower-right'+j">
+        <li class="mdl-menu__item">
+          <form action="#">
+            <div class="mdl-textfield mdl-js-textfield">
+              <input class="mdl-textfield__input" type="text" id="sample1">
+              <label class="mdl-textfield__label" for="sample1">Text...</label>
+            </div>
+          </form>
+        </li>
+      </ul>
+    </th>
+  </tr>
+  </thead>
+  <tbody *ngFor="let row of rows;let i =index">
+  <tr>
+    <td *ngFor="let cell of columns" [ngClass]="{'mdl-data-table__cell--non-numeric': i == 0 }">
+      {{row[cell.dataIndex]}}
+    </td>
+  </tr>
+  </tbody>
+</table>

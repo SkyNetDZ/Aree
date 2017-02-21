@@ -22,6 +22,7 @@ import {Directory} from '../model/Directory';
 import {Meter} from '../model/Meter';
 import {String} from 'shelljs';
 import {TableCellComponent} from '../table-cell/table-cell.component';
+import {TableService} from "../service/table.service";
 
 @Directive({
   selector: '[first]'
@@ -62,6 +63,14 @@ export class FirstDirective {
 })
 export class TableRowComponent {
 
+  @Input() level: number;
+
+  static levelCol: Array<number> = [];
+
+  @Input() initLength: number;
+
+  @Output() dataChart = new EventEmitter();
+
   @Input() cellWidth: number;
 
   @Input() parent: number;
@@ -82,9 +91,13 @@ export class TableRowComponent {
 
   // @Output() selected = new EventEmitter();
 
+  @Input() freezedColumns: Array<any>;
+
   private selectedRow: boolean = false;
 
   private static cells2: Array<any> = [];
+
+  dataTemp: [any];
 
   // @HostListener('mouseover', ['$event'])
   // mouseover(event) {
@@ -97,10 +110,16 @@ export class TableRowComponent {
   //   console.log(event.target);
   // }
 
-  constructor(private resolver: ComponentFactoryResolver, private el: ElementRef) {
+
+  //@ViewChild('foo') template;
+  constructor(private view: ViewContainerRef, private resolver: ComponentFactoryResolver, private el: ElementRef, private _metersService: TableService) {
   }
 
 
+  // ngAfterContentInit(){
+  //   this.view.createEmbeddedView(this.template);
+  //
+  // }
   ngAfterViewInit() {
     if (this.cells.length > 0) {
       this.cells.forEach(function (item) {
@@ -109,26 +128,66 @@ export class TableRowComponent {
     }
   }
 
-  addCell() {
-    const factory = this.resolver.resolveComponentFactory(TableCellComponent);
-    // this.cell.createComponent(factory);
-    TableRowComponent.cells2.forEach(function (r, i) {
-      console.log(r);
-      if (i % 3 == 2) {
-        r.createComponent(factory).instance.content = "new cell" + i;
-      }
-    });
-  }
-
-  deleteCell(cell: TableCellComponent) {
-  }
+  // addCell() {
+  //   const factory = this.resolver.resolveComponentFactory(TableCellComponent);
+  //   // this.cell.createComponent(factory);
+  //   TableRowComponent.cells2.forEach(function (r, i) {
+  //     console.log(r);
+  //     if (i % 3 == 2) {
+  //       r.createComponent(factory).instance.content = "new cell" + i;
+  //     }
+  //   });
+  // }
+  //
+  // deleteCell(cell: TableCellComponent) {
+  // }
 
 
   selectRowTable(event) {
-    this.selectedRow = event;
+    //this.selectedRow = event;
   }
 
-  checkRow(event) {
-    this.selectedRow = !this.selectedRow;
+  checkRow(event, model) {
+    console.log(event);
+    console.log(model);
+
+    this._metersService.getConsumptionPerPeriod(model.Id)
+      .subscribe(
+        d => this.dataChart.emit(JSON.parse(JSON.stringify(d))['Data'][0]['Data']),
+        error => console.log(error),
+        () => console.log('finish load data')
+      );
+
+  }
+
+  setParentDataChart(event) {
+    console.log('hild send data to paent node ');
+    this.dataChart.emit(event);
+  }
+
+  freezedColumn(index: number, cell: any) {
+    if (cell != null && cell.configCol != null) {
+      return cell.configCol.freez;
+    }
+    return index == 0;
+  }
+
+  adaptOffset(index: number, cell: any) {
+    let offset: number;
+    let indexFreezed = this.freezedColumns.findIndex(o => Object.is(o, cell));
+    if (indexFreezed > -1) {
+      offset = (indexFreezed + 1 ) * 100 + 10;
+    } else {
+      offset = index * 100 + 10;
+    }
+    return offset;
+  }
+
+  ngOnChanges(changes: any) {
+    console.log(changes);
+    if (changes.level != null) {
+      TableRowComponent.levelCol.push(changes.level.currentValue);
+    }
+    console.log(TableRowComponent.levelCol.toString());
   }
 }

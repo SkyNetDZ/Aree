@@ -1,16 +1,28 @@
 <section class="chartist">
   <ngb-accordion #acc="ngbAccordion" activeIds="1">
-    <ngb-panel id="1" title="Meters Listing" baCardClass="with-scroll">
+    <ngb-panel id="1" title="Meters Listing">
       <template ngbPanelContent>
-        <app-table></app-table>
+        <app-table (dataCahrt)="setDataTemp($event)"></app-table>
       </template>
     </ngb-panel>
-    <ngb-panel id="2" title="Analyse" (click)="acc.toggle('2')">
+    <ngb-panel id="2" title="Heatmap" (click)="acc.toggle('2')">
       <template ngbPanelContent>
-        <aree-fader [isVisible]="isVisible" [attachedComp]=partone></aree-fader>
-        <!--<app-heatmap-chart *ngIf="dataTemp" [data]="dataTemp"></app-heatmap-chart>-->
-        <!--<app-line-chart></app-line-chart>-->
-        <!--<app-bar-chart *ngIf="dataTemp" [data]="dataTemp"></app-bar-chart>-->
+        <!--//<aree-fader [isVisible]="isVisible" [attachedComp]=partone></aree-fader>-->
+        <app-heatmap-chart *ngIf="dataTemp" [data]="dataTemp"></app-heatmap-chart>
+      </template>
+    </ngb-panel>
+    <ngb-panel id="3" title="BarChart" (click)="acc.toggle('3')">
+      <template ngbPanelContent>
+        <app-bar-chart *ngIf="dataTemp" [data]="dataTemp"></app-bar-chart>
+      </template>
+    </ngb-panel>
+    <ngb-panel id="4" title="LineChart" (click)="acc.toggle('4')">
+      <template ngbPanelContent>
+        <app-line-chart></app-line-chart>
+      </template>
+    </ngb-panel>
+    <ngb-panel id="5" title="Performance" (click)="acc.toggle('5')">
+      <template ngbPanelContent>
         <app-performance-chart></app-performance-chart>
       </template>
     </ngb-panel>

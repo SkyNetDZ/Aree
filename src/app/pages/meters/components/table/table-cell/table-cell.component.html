@@ -1,5 +1,9 @@
-<div class="rTableCell" [ngStyle]="{'width': cellWidth +'px', 'vertical-align' : 'middle' }">
+<!--<div class="rTableCell" [ngStyle]="{'width': cellWidth +'px', 'vertical-align' : 'middle'}">-->
+<!--<span *ngIf="content != null">{{ content }}</span>-->
+<!--<ng-content></ng-content>-->
+<!--</div>-->
+
+<div class="rTableCell" [ngStyle]="{'width': cellWidth +'px'}">
   <span *ngIf="content != null">{{ content }}</span>
   <ng-content></ng-content>
 </div>
-

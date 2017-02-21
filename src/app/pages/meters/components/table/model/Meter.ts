@@ -18,6 +18,7 @@ export class Meter {
   expanded: boolean;
   checked: boolean;
   Color: any;
+  Niveau: number = 0;
 
   constructor(Object, children) {
     if (Object != null) {

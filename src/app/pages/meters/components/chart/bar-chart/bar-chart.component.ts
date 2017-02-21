@@ -1,18 +1,28 @@
-import { Component, OnInit, ViewChild, ElementRef, Input, ViewEncapsulation } from '@angular/core';
+import {Component, OnInit, ViewChild, ElementRef, Input, ViewEncapsulation, NgZone} from '@angular/core';
 import * as d3 from 'd3';
+
+export enum Periods {
+  Year = <any> "1",
+  Month = <any> "2",
+  Week = <any> "3",
+  Day = <any> "4",
+}
 
 @Component({
   selector: 'app-bar-chart',
   templateUrl: './bar-chart.component.html',
   styleUrls: ['./bar-chart.component.css'],
   encapsulation: ViewEncapsulation.None
-
 })
 export class BarChartComponent implements OnInit {
 
   @ViewChild('barchart') private chartContainer: ElementRef;
-  @Input() private data: Array<any>;
-  private margin: any = { top: 20, bottom: 20, left: 50, right: 20 };
+  @Input() data: Array<any>;
+  dateStart = new Date(2015, 0, 1);
+  dateEnd = new Date(2015, 11, 31);
+  period: any = "2";
+  periods = [Periods.Day, Periods.Year, Periods.Month, Periods.Week];
+  private margin: any = {top: 20, bottom: 20, left: 50, right: 20};
   private padding: number = 20;
   private chart: any;
   private width: number;
@@ -23,7 +33,14 @@ export class BarChartComponent implements OnInit {
   private xAxis: any;
   private yAxis: any;
 
-  constructor() {
+  constructor(private ngZone: NgZone) {
+    window.onresize
+      = (e) => {
+      ngZone.run(() => {
+        this.width = window.innerWidth;
+        this.height = window.innerHeight;
+      });
+    };
   }
 
   ngOnInit() {
@@ -53,13 +70,28 @@ export class BarChartComponent implements OnInit {
       .attr('class', 'bars')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`);
 
+    let xDomain;
+
     // define X & Y domains
-    let xDomain = this.data.map(d => new Date(parseInt((d.d).substr(6, 24))));
+    switch (this.period) {
+      case Periods.Day :
+        xDomain = d3.timeDays(this.dateStart, this.dateEnd);
+        break;
+      case Periods.Week :
+        xDomain = d3.timeWeeks(this.dateStart, this.dateEnd);
+        break;
+      case Periods.Month:
+        xDomain = d3.timeMonths(this.dateStart, this.dateEnd);
+        break;
+      case Periods.Year :
+        xDomain = d3.timeYears(this.dateStart, this.dateEnd);
+        break;
+    }
+
     let yDomain = [0, d3.max(this.data, d => d.v)];
 
     // create scales
-    this.xScale = d3.scaleBand().padding(0.1).domain(xDomain).range([0, this.width]);
-    //this.xScale = d3.scaleTime().domain(xDomain).range([0, this.width]);
+    this.xScale = d3.scaleBand().padding(0.2).domain(xDomain).range([0, this.width]);
     this.yScale = d3.scaleLinear().domain(yDomain).range([this.height, 0]);
 
     // bar colors
@@ -69,57 +101,101 @@ export class BarChartComponent implements OnInit {
     this.xAxis = svg.append('g')
       .attr('class', 'axis axis-x')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top + this.height})`)
-      .call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat('%d/%m/%Y')));
+      .call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat('%m/%Y')));
+
     this.yAxis = svg.append('g')
       .attr('class', 'axis axis-y')
       .attr('transform', `translate(${this.margin.left}, ${this.margin.top})`)
       .call(d3.axisLeft(this.yScale));
+
   }
 
   updateChart() {
     // update scales & axis
-    this.xScale.domain(this.data.map(d => new Date(parseInt((d.d).substr(6, 24)))));
+    let xDomain;
+
+    // define X & Y domains
+    switch (this.period) {
+      case Periods.Day :
+        xDomain = d3.timeDays(this.dateStart, this.dateEnd);
+        break;
+      case Periods.Week :
+        xDomain = d3.timeWeeks(this.dateStart, this.dateEnd);
+        break;
+      case Periods.Month:
+        xDomain = d3.timeMonths(this.dateStart, this.dateEnd);
+        break;
+      case Periods.Year :
+        xDomain = d3.timeYears(this.dateStart, this.dateEnd);
+        break;
+    }
+
+    this.xScale.domain(xDomain);
     this.yScale.domain([0, d3.max(this.data, d => d.v)]);
     this.colors.domain([0, this.data.length]);
-    this.xAxis.transition().call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat('%d/%m/%Y')));
+    this.xAxis.transition().call(d3.axisBottom(this.xScale).tickFormat(d3.timeFormat('%m/%Y')));
     this.yAxis.transition().call(d3.axisLeft(this.yScale));
 
     let update = this.chart.selectAll('.bar')
       .data(this.data);
 
-    // remove exiting bars
     update.exit().remove();
 
     // update existing bars
     this.chart.selectAll('.bar').transition()
-      .attr('x', d => this.xScale(new Date(parseInt((d.d).substr(6, 24)))))
+      .attr('x', d => this.xScale(this.buildDate(d.d)))
       .attr('y', d => this.yScale(d.v))
       .attr('width', d => this.xScale.bandwidth())
-      .attr('height', d => this.height - this.yScale(d.v))
+      .attr('height', d => Math.abs(this.height - this.yScale(d.v)))
       .style('fill', (d, i) => this.colors(i));
 
-    console.log(this.xScale);
+
+    let tip = d3.select('body').append('div')
+      .attr('class', 'tooltip')
+      .style('opacity', 0);
 
     // add new bars
     update
       .enter()
       .append('rect')
       .attr('class', 'bar')
-      .attr('x', d => this.xScale(new Date(parseInt((d.d).substr(6, 24)))))
-      .attr('y', d => this.yScale(0))
+      .attr('x', (d) => this.xScale(this.buildDate(d.d)))
+      .attr('y', d => this.yScale(d.v))
       .attr('width', this.xScale.bandwidth())
-      .attr('height', 0)
+      .attr('height', d => Math.abs(this.height - this.yScale(d.v)))
+      .on('click', (d) => {
+        console.log(d.d);
+        console.log(d.v)
+      })
       .style('fill', (d, i) => this.colors(i))
+      .on('mouseout', function (d) {
+        tip.style('display', 'none');
+      })
+      .on('mouseover', function (d) {
+        tip.transition()
+          .duration(200)
+          .style('opacity', .9)
+          .style('display', 'block');
+        tip.html('Date : ' +
+          d3.timeFormat('%d/%m/%Y')(
+            new Date(parseInt((d.d).substr(6)))) + '<br>'
+          + d.v.toPrecision(4) + ' kWh')
+          .style('left', (d3.event.pageX) + 'px')
+          .style('top', (d3.event.pageY - 28) + 'px')
+          .style('padding', 5 + 'px')
+          .style('background', 'white');
+      })
       .transition()
       .delay((d, i) => i * 10)
-      .attr('y', d => this.yScale(d.v))
-      .attr('height', d => this.height - this.yScale(d.v));
   }
 
 
-  formatDateChart(date: string) {
+  buildDate(date: string) {
     let dateF = new Date(parseInt(date.substr(6, 24)));
-    return dateF.getDate() + '/' + (dateF.getMonth() + 1) + '/' + dateF.getFullYear();
+    let year = dateF.getFullYear();
+    let month = dateF.getMonth();
+    let dated = dateF.getDate();
+    return new Date(year, month, dated);
   }
 
   responsivefy(svg) {

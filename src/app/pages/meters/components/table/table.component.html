@@ -1,5 +1,39 @@
-<!--<input type="text" [(ngModel)]="globalStyle.backgroundColor"><br><br> -->
-<!--<button (click)="onClickAddElement()">add Element</button>
-<button (click)="condition = !condition">Hide Row </button>
-<app-table-row [children]="children"></app-table-row>-->
-<!--<app-test></app-test>-->
+<!-- Accent-colored raised button with ripple -->
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+        (click)="onClickAddColumn()">
+  add column
+</button>
+<button class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent"
+        (click)="onTreeView()">
+  Tree View
+</button>
+
+
+<app-dataGrid [rows]="testData"></app-dataGrid>
+
+<div class="rTable" #table [ngStyle]="{'margin-left.px': staticMargin }">
+  <div class="rTableRow" #headerTab>
+    <div *ngFor="let header of columns ; let i = index">
+      <div class="rTableHead" [ngClass]="{'freezed-cell': freezedColumn(i , header)  }"
+           [ngStyle]="(!isFreezedColumn(i ,header)) ? {'width.px': 100 } : {'width.px': 100 , 'left.px' : adaptOffset(i,header) }"
+           draggable="{{ i > 0 }}" (dragstart)="drag($event,i)" (drop)="drop($event,i)" (dragover)="allowDrop($event)">
+        <button id="'demo-menu-lower-right'+j"
+                class="mdl-button mdl-js-button mdl-button--icon">
+          <i class="material-icons">more_vert</i>
+        </button>
+        <div style="padding: 3px 1.8%;align-self: stretch;margin: auto;display:table-row;">{{
+          header.columnName.toLocaleUpperCase()}}
+        </div>
+        <!--<div style="float: right;display:table-row;background-image:url('/assets/icon/settings.svg');background-repeat: space;background-color: red"><app-filter></app-filter></div>-->
+        <div style="float: right;display: table-row;background-color: yellow">
+          <app-conf-column [column]="header" (configChange)="handleAddNewColumnConfig($event,i)"
+                           (configSave)="handleSaveColumnConfig($event,i)"></app-conf-column>
+        </div>
+      </div>
+    </div>
+  </div>
+  <app-table-row [level]="0" [children]="children" [columns]="columns" [cellWidth]="(width / columns.length)"
+                 (dataChart)="loadChartData($event)" [initLength]="initalNumberColumns"
+                 [freezedColumns]="freezedColumns"></app-table-row>
+</div>
+

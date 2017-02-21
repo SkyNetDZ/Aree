@@ -8,21 +8,55 @@
 :host {
   cursor: pointer;
   width: 100%;
+  display: table-row;
 }
 
 .icon-expended {
   -ms-transform: rotate(60deg); /* IE 9 */
   -webkit-transform: rotate(60deg); /* Chrome, Safari, Opera */
   transform: rotate(60deg);
+  /*margin-left: 10%;*/
 }
 
 img {
-  -ms-transform: rotate(-30deg); /* IE 9 */
-  -webkit-transform: rotate(-30deg); /* Chrome, Safari, Opera */
-  transform: rotate(-30deg);
-  margin-right: 3px;
+  /*-ms-transform: rotate(-30deg); !* IE 9 *!*/
+  /*-webkit-transform: rotate(-30deg); !* Chrome, Safari, Opera *!*/
+  /*transform: rotate(-30deg);*/
+  /*margin-right: 3px;*/
 }
 
 .selected-row {
   background: red;
+}
+
+.fixed-cell {
+  position: fixed;
+  top: auto;
+  background: white;
+  width: auto;
+}
+
+.added-cell {
+  background: red;
+}
+
+app-table-cell:first-child {
+  position: absolute;
+  top: auto;
+  width: auto;
+  left: 10px;
+}
+
+.freezed-cell {
+  position: absolute;
+  top: auto;
+  /*//left:10px;*/
+  width: auto;
+  /*background-color: gray;*/
+}
+
+span {
+  height: auto;
+  width: 16px;
+  /*background-color: green;*/
 }
