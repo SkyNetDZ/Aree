@@ -1,8 +1,9 @@
 import {Routes, RouterModule} from "@angular/router";
-import {Groups} from "./components/groups/groups.component";
-import {Locations} from "./components/locations/locations.component";
 import {Meter} from "./meter.component";
 import {Meters} from "./components/meters/meters.component";
+import {LocationComponent} from './components/location/location.component';
+import {GroupComponent} from './components/group/group.component';
+
 
 // noinspection TypeScriptValidateTypes
 const routes: Routes = [
@@ -11,8 +12,8 @@ const routes: Routes = [
     component: Meter,
     children: [
       {path: 'aree-meters', component: Meters},
-      {path: 'aree-location', component: Locations},
-      {path: 'aree-group', component: Groups}
+      {path: 'app-location', component: LocationComponent},
+      {path: 'app-group', component: GroupComponent},
     ]
   }
 ];

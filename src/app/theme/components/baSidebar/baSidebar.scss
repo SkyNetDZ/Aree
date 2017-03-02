@@ -75,7 +75,7 @@ a.al-sidebar-list-link {
   height: 42px;
   padding-left: 18px;
   text-shadow: none;
-  font-size: 13px;
+  font-size: 16px;
   text-decoration: none;
   color: $sidebar-text;
   line-height: 42px;
@@ -144,12 +144,12 @@ a.al-sidebar-list-link {
     a {
       display: block;
       text-shadow: none;
-      font-size: 13px;
+      font-size: 16px;
       text-decoration: none;
       color: $sidebar-text;
       padding-left: 52px;
       height: auto;
-      line-height: 29px;
+      line-height: 55px;
       &:hover {
         color: $primary;
       }

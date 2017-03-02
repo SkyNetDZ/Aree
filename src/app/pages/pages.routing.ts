@@ -16,14 +16,9 @@ const routes: Routes = [
     children: [
       {path: '', redirectTo: 'dashboard', pathMatch: 'full'},
       {path: 'dashboard', loadChildren: () => System.import('./dashboard/dashboard.module')},
-      {path: 'aree-meter', loadChildren: () => System.import('./meters/meter.module')},
-      {path: 'editors', loadChildren: () => System.import('./editors/editors.module')},
-      //{ path: 'components', loadChildren: () => System.import('./components/components.module') }
-      {path: 'charts', loadChildren: () => System.import('./charts/charts.module')},
-      {path: 'ui', loadChildren: () => System.import('./ui/ui.module')},
-      {path: 'forms', loadChildren: () => System.import('./forms/forms.module')},
-      {path: 'tables', loadChildren: () => System.import('./tables/tables.module')},
-      {path: 'maps', loadChildren: () => System.import('./maps/maps.module')}
+      {path: 'aree-meter', loadChildren: () => System.import('./meters/meter.module')}
+      // {path: 'app-location', loadChildren: () => System.import('./location/location.module')},
+      // {path: 'app-group', loadChildren: () => System.import('./group/group.module')}
     ]
   }
 ];

@@ -1,30 +1,133 @@
-<section class="chartist">
-  <ngb-accordion #acc="ngbAccordion" activeIds="1">
-    <ngb-panel id="1" title="Meters Listing">
-      <template ngbPanelContent>
-        <app-table (dataCahrt)="setDataTemp($event)"></app-table>
-      </template>
-    </ngb-panel>
-    <ngb-panel id="2" title="Heatmap" (click)="acc.toggle('2')">
-      <template ngbPanelContent>
-        <!--//<aree-fader [isVisible]="isVisible" [attachedComp]=partone></aree-fader>-->
-        <app-heatmap-chart *ngIf="dataTemp" [data]="dataTemp"></app-heatmap-chart>
-      </template>
-    </ngb-panel>
-    <ngb-panel id="3" title="BarChart" (click)="acc.toggle('3')">
-      <template ngbPanelContent>
-        <app-bar-chart *ngIf="dataTemp" [data]="dataTemp"></app-bar-chart>
-      </template>
-    </ngb-panel>
-    <ngb-panel id="4" title="LineChart" (click)="acc.toggle('4')">
-      <template ngbPanelContent>
-        <app-line-chart></app-line-chart>
-      </template>
-    </ngb-panel>
-    <ngb-panel id="5" title="Performance" (click)="acc.toggle('5')">
-      <template ngbPanelContent>
-        <app-performance-chart></app-performance-chart>
-      </template>
-    </ngb-panel>
-  </ngb-accordion>
-</section>
+<!--<section class="chartist">-->
+<!--<ngb-accordion #acc="ngbAccordion" activeIds="1">-->
+<!--<ngb-panel id="1" title="Meters Listing">-->
+<!--<template ngbPanelContent>-->
+<!--<app-dataGrid></app-dataGrid>-->
+<!--&lt;!&ndash;<app-table (dataCahrt)="setDataTemp($event)"></app-table>&ndash;&gt;-->
+<!--</template>-->
+<!--</ngb-panel>-->
+<!--<ngb-panel id="2" title="Heatmap" (click)="acc.toggle('2')">-->
+<!--<template ngbPanelContent>-->
+<!--&lt;!&ndash;//<aree-fader [isVisible]="isVisible" [attachedComp]=partone></aree-fader>&ndash;&gt;-->
+<!--<app-heatmap-chart *ngIf="dataTemp" [data]="dataTemp"></app-heatmap-chart>-->
+<!--</template>-->
+<!--</ngb-panel>-->
+<!--<ngb-panel id="3" title="BarChart" (click)="acc.toggle('3')">-->
+<!--<template ngbPanelContent>-->
+<!--<app-bar-chart *ngIf="dataTemp" [data]="dataTemp"></app-bar-chart>-->
+<!--</template>-->
+<!--</ngb-panel>-->
+<!--<ngb-panel id="4" title="LineChart" (click)="acc.toggle('4')">-->
+<!--<template ngbPanelContent>-->
+<!--<app-line-chart></app-line-chart>-->
+<!--</template>-->
+<!--</ngb-panel>-->
+<!--<ngb-panel id="5" title="Performance" (click)="acc.toggle('5')">-->
+<!--<template ngbPanelContent>-->
+<!--<app-performance-chart></app-performance-chart>-->
+<!--</template>-->
+<!--</ngb-panel>-->
+<!--</ngb-accordion>-->
+<!--</section>-->
+
+<!--<div class="mdl-grid">
+  <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet">
+    <div class="mdl-card mdl-shadow--4dp" style="width: 100%">
+      <app-data-table></app-data-table>
+    </div>
+  </div>
+  <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet">
+    <div class="mdl-card mdl-shadow--4dp" style="width: 100%">
+      <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+        <div class="mdl-tabs__tab-bar">
+          <a href="#barchart-panel" class="mdl-tabs__tab">Bar Chart</a>
+          <a href="#heatmap-panel" class="mdl-tabs__tab is-active">Heatmap</a>
+          <a href="#linechart-panel" class="mdl-tabs__tab">Line Chart</a>
+          <a href="#performance-panel" class="mdl-tabs__tab">Performance</a>
+        </div>
+        <div class="mdl-tabs__panel is-active" id="barchart-panel">
+          <div class="filter-chart">
+            <div class="item-filter">
+              <label>Date Start :
+               <input type="date" id="date-start" name="dateStart">
+            </label>
+            </div>
+            <div class="item-filter">
+              <label>Date End :
+                <input type="date" id="date-end" name="dateEnd">
+            </label></div>
+            <div class="item-filter">
+              <label>Period :
+               <select>
+                 <option>Year</option>
+                 <option>Month</option>
+                 <option>Week</option>
+                 <option>Day</option>
+               </select>
+             </label>
+            </div>
+          </div>
+          <app-bar-chart *ngIf="dataTemp" [data]="dataTemp"></app-bar-chart>
+        </div>
+        <div class="mdl-tabs__panel " id="heatmap-panel">
+          <app-heatmap-chart *ngIf="dataTemp" [data]="dataTemp"></app-heatmap-chart>
+        </div>
+        <div class="mdl-tabs__panel" id="linechart-panel">
+          <app-line-chart></app-line-chart>
+        </div>
+        <div class="mdl-tabs__panel" id="performance-panel">
+          <app-performance-chart></app-performance-chart>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>-->
+
+<div class="mdl-grid" style="height: 115%">
+  <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-card mdl-shadow--4dp" style="height: 50%;overflow: auto">
+    <app-data-table #table (dataChart)="loadDataChart($event)"  (selectedRow)="selectionRow($event)"></app-data-table>
+  </div>
+  <div class="mdl-cell mdl-cell--12-col mdl-cell--8-col-tablet mdl-card mdl-shadow--4dp" style="height: 50%;overflow: auto">
+      <div class="mdl-tabs mdl-js-tabs mdl-js-ripple-effect">
+        <div class="mdl-tabs__tab-bar">
+          <a href="#barchart-panel" class="mdl-tabs__tab">Bar Chart</a>
+          <a href="#heatmap-panel" class="mdl-tabs__tab" (click)="loadConsuptionData('','','6')">Heatmap</a>
+          <a href="#linechart-panel" class="mdl-tabs__tab">Line Chart</a>
+          <a href="#performance-panel" class="mdl-tabs__tab">Performance</a>
+        </div>
+        <div class="mdl-tabs__panel" id="barchart-panel">
+          <div class="filter-chart" id="f1">
+            <div class="item-filter">
+              <label>Date Start :
+               <input type="date" id="d1" name="dateStart" (change)="loadConsuptionData($event.target.value,dateEnd,duration)" [(ngModel)]="dateStart">
+            </label>
+            </div>
+            <div class="item-filter">
+              <label>Date End :
+                <input type="date" id="d2" name="dateEnd" (change)="loadConsuptionData(dateStart,$event.target.value,duration)" [(ngModel)]="dateEnd">
+            </label></div>
+            <div class="item-filter">
+              <label>Period :
+               <select name="duration" id="d3" (change)="loadConsuptionData(dateStart,dateEnd,$event.target.value)" [(ngModel)]="duration">
+                 <option value="7">Year</option>
+                 <option value="6">Month</option>
+                 <option value="5">Week</option>
+                 <option value="4">Day</option>
+               </select>
+             </label>
+            </div>
+          </div>
+          <app-bar-chart *ngIf="dataTemp" [data]="dataTemp" [duration]="duration"></app-bar-chart>
+        </div>
+        <div class="mdl-tabs__panel " id="heatmap-panel">
+          <app-heatmap-chart *ngIf="dataTemp" [data]="dataTemp" [dateStart]="dateStart" [dateEnd]="dateEnd"></app-heatmap-chart>
+        </div>
+        <div class="mdl-tabs__panel" id="linechart-panel">
+          <app-line-chart></app-line-chart>
+        </div>
+        <div class="mdl-tabs__panel" id="performance-panel">
+          <app-performance-chart></app-performance-chart>
+        </div>
+      </div>
+  </div>
+</div>

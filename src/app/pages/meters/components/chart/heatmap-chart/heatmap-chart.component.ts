@@ -13,12 +13,14 @@ export enum Periods {
   selector: 'app-heatmap-chart',
   templateUrl: './heatmap-chart.component.html',
   styleUrls: ['./heatmap-chart.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Native
 })
 export class HeatmapChartComponent implements OnInit {
 
   @ViewChild('heatmapchart') private chartContainer: ElementRef;
   @Input() private data: Array<any>;
+  @Input() dateStart : string;
+  @Input() dateEnd : string;
   private margin: any = { top: 20, bottom: 20, left: 100, right: 10 };
   private chart: any;
   private width: number;
@@ -97,18 +99,20 @@ export class HeatmapChartComponent implements OnInit {
     this.element = this.chartContainer.nativeElement;
     this.width = this.element.offsetWidth - this.margin.left - this.margin.right;
     this.height = this.element.offsetHeight - this.margin.top - this.margin.bottom;
-    this.days = d3.timeDays(new Date(2016, 9, 1), new Date(2016, 10, 1));
+    
+    this.svg = d3.select(this.element).append('svg')
+      .attr('width', 1000)
+      .attr('height', 400)
+      .style('padding-left', 80)
+      .style('padding-top', 20)
+      .call(this.responsivefy);
+    this.days = d3.timeDays(new Date(this.dateStart),new Date(this.dateEnd));
     this.times = d3.timeHours(new Date(2016, 9, 1), new Date(2016, 9, 2));
     this.gridSize = Math.floor(this.width / 24);
     this.legendElementWidth = this.gridSize * 2;
     this.buckets = 9;
     this.colorScale = d3.scaleSequential(d3.interpolateRgb('rgb(255,255,255)', 'rgb(255,0,0)'))
       .domain([0, d3.max(this.data, d => d.v)]);
-
-    this.svg = d3.select(this.element).append('svg')
-      .attr('width', this.element.offsetWidth)
-      .attr('height', 1050)
-      .call(this.responsivefy);
   }
 
   drawLabels() {
@@ -196,7 +200,6 @@ export class HeatmapChartComponent implements OnInit {
   }
 
   drawLegend() {
-
     let numStops = 10;
     let countRange = this.colorScale.domain();
     countRange[2] = countRange[1] - countRange[0];

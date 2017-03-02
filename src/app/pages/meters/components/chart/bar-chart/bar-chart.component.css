@@ -1,13 +1,23 @@
-.d3-chart {
+:host{
+  display:flex;
+  flex-direction: row;
   width: 100%;
-  height: 400px;
+  height: auto;
 }
 
-.d3-chart .axis path,
-.d3-chart .axis line {
-  stroke: #ffffff;
+:host >>> svg{
+  flex : 1;
 }
 
-.d3-chart .axis text {
-  fill: #ffffff;
+.axis path,
+.axis line {
+  stroke: black;
+}
+
+.axis text {
+  fill: black;
+}
+
+.axis .axis-x .axis-y path {
+  stroke: black;
 }

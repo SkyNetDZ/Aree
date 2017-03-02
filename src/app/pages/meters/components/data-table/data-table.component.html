@@ -1,0 +1,93 @@
+<div class="content-grid mdl-grid">
+  <div class="a-toolbar">
+    <button id="show-dialog" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" (click)="showConfWin($event)">
+      <i class="material-icons">filter_list</i>
+    </button>
+    <!--<button id="tt2" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" (click)="addColumnSticky()">
+      <i class="material-icons">add</i>
+    </button>-->
+    <button id="tt4" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" (click)="addColumnNatural()">
+      <i class="material-icons">add</i>
+    </button>
+    <button id="tt3" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+      <i class="material-icons">settings</i>
+    </button>
+    <label for="switch1" class="mdl-switch mdl-js-switch" style="width: auto;" (change)="setTreeView()">
+      <input type="checkbox" id="switch1" class="mdl-switch__input">
+      <span class="mdl-switch__label">Tree View</span>
+    </label>
+  </div>
+</div>
+
+<div class="content-grid mdl-grid">
+  <app-setting [columns]="naturalColumns" (columnsConfig)="onChangeConfigColumn($event)"></app-setting>
+  <div class="a-table">
+    <div style="display: flex; flex-direction: row;width: 100%;">
+      <!-- fixed columns -->
+      <div class="sticky-part">
+        <app-header [columns]="stickyColumns" (droppedColumns)="loadDroppedColumns($event,1)" [sectionType]="1" (checkAll) ="checkAllRows($event)" ></app-header>
+        <div class="a-body">
+          <app-row [rows]="rows" [columns]="stickyColumns" [level]="0" [treeView]="treeView" [sectionType]="1" (dataChart)="loadChartData($event)" (indexSelectedRow)="selectionRow($event)"></app-row>
+        </div>
+      </div>
+      <!-- normal columns -->
+      <div class="natural-part">
+        <app-header [columns]="naturalColumns" (droppedColumns)="loadDroppedColumns($event,2)" [sectionType]="2"></app-header>
+        <div class="a-body">
+          <app-row [rows]="rows" [columns]="naturalColumns" [level]="0" [sectionType]="2" ></app-row>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--<div class="main-body">-->
+<!--<div id="1" class="table">-->
+<!--<div class="header">-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--</div>-->
+<!--<div class="body">-->
+<!--<div class="row">-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--<div id="2" class="table">-->
+<!--<div class="header">-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--</div>-->
+<!--<div class="body">-->
+<!--<div class="row">-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--</div>-->
+<!--<div class="row">-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--<div class="cell"></div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->

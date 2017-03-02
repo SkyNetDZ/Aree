@@ -12,9 +12,9 @@
 }
 
 .icon-expended {
-  -ms-transform: rotate(60deg); /* IE 9 */
-  -webkit-transform: rotate(60deg); /* Chrome, Safari, Opera */
-  transform: rotate(60deg);
+    -ms-transform: rotate(60deg); /* IE 9 */
+    -webkit-transform: rotate(60deg); /* Chrome, Safari, Opera */
+    transform: rotate(60deg);
   /*margin-left: 10%;*/
 }
 

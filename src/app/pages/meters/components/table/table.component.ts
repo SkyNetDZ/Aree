@@ -388,16 +388,6 @@ export class TableComponent implements OnInit {
   }
 
   private formatData(d) {
-    // this.data = JSON.parse(JSON.stringify(d));
-    // let metersId = [];
-    // metersId.push(Object.keys(d[0]));
-    // for (let i of Object.keys(d[0])) {
-    //   this.data.push(d[0][i]);
-    // }
-    // for (let i of Object.keys(d[0])) {
-    //   this.fatchParent(d[0][i], new Meter(d[0][i], []));
-    // }
-    // localStorage.setItem('meters_id', JSON.stringify(metersId));
     console.log(d);
     if (d == null || d.length == 0) {
       console.log('liste vide')

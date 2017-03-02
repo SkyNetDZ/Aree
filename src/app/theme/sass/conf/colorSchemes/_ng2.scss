@@ -1,5 +1,5 @@
-$default: #ffffff; // default colors for layout
-$body-bg: #F0F3F4; // default bg color
+$default: #9b9d9b; // default colors for layout
+$body-bg: #c5c8c9; // default bg color
 
 $default-text: $default; // default text color layout (usually is the same as $default)
 $content-text: $default-text; // content text color on card, panels, form, etc
@@ -26,14 +26,14 @@ $progress-default: rgba($default-text, 0.95);
 
 // bootstrap card panel styles
 $bootstrap-panel-radius: 7px;
-$bootstrap-panel-text: #ffffff;
+$bootstrap-panel-text: #8b8d8d;
 $bootstrap-panel-bg: rgba(255, 255, 255, 0.1);
 $bootstrap-panel-header-bg: transparent;
 $bootstrap-panel-header-border: 1px solid $border-light;
 $bootstrap-panel-shadow: 1px 1px 4px rgba(53, 144, 1, 0.15);
 
 // color scheme
-$primary: #00abff !default;
+$primary: #2f85d2 !default;
 $info: #40daf1 !default;
 $success: #8bd22f !default;
 $warning: #e7ba08 !default;
@@ -58,7 +58,7 @@ $warning-bg: tint($warning, 20%);
 $danger-bg: tint($danger, 20%);
 
 // link colors
-$activelink: #285eb8;
+$activelink: #6daae0;
 $hoverlink: darken($activelink, 20%);
 
 // main background
@@ -74,7 +74,7 @@ $hoverlink: darken($activelink, 20%);
     height: 100%;
     top: 0;
     left: 0;
-    background: url($mainBgUrl) no-repeat center center;
+    //background: url($mainBgUrl) no-repeat center center;
     background-size: cover;
     will-change: transform;
     z-index: 0;

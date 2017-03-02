@@ -1,0 +1,14 @@
+:host{
+  display: inline-block;
+  vertical-align: middle;
+  background-color: deepskyblue;
+  width: auto;
+  /*flex-direction: row;*/
+  /*justify-content: space-around;*/
+}
+
+:host >>> app-cell {
+  color: rgba(15, 17, 15, 0.66);
+  font-weight:bold ;
+}
+

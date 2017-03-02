@@ -71,7 +71,8 @@ export class PerformanceChartComponent implements OnInit {
     // this.height = element.offsetHeight - this.margin.top - this.margin.bottom;
     this.svg = d3.select(element).append('svg')
       .attr('width', 1000)
-      .attr('height', 700);
+      .attr('height', 400)
+      .call(this.responsivefy);
   }
 
   createTable() {
@@ -227,4 +228,25 @@ export class PerformanceChartComponent implements OnInit {
       this.offsetAxis = this.offsetAxis + this.indecatorWidth + 50;
     }
   }
+
+  responsivefy(svg) {
+    // get container + svg aspect ratio
+    let container = d3.select(svg.node().parentNode),
+      width = parseInt(svg.style('width')),
+      height = parseInt(svg.style('height')),
+      aspect = width / height;
+
+    svg.attr('viewBox', '0 0 ' + width + ' ' + height)
+      .attr('preserveAspectRatio', 'xMinYMid')
+      .call(resize);
+
+    d3.select(window).on('resize.' + container.attr('id'), resize);
+
+    function resize() {
+      let targetWidth = parseInt(container.style('width'));
+      svg.attr('width', targetWidth);
+      svg.attr('height', Math.round(targetWidth / aspect));
+    }
+  }
+
 }

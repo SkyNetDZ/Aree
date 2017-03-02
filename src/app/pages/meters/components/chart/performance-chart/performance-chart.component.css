@@ -1,3 +1,12 @@
+:host{
+  display: flex;
+  flex-direction: row;
+}
+
+svg {
+  flex : 1;
+}
+
 rect{
     border: width border-style color;
 }

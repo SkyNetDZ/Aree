@@ -1,15 +1,25 @@
+:host{
+  display: flex;
+  flex-direction: row;
+  width: auto;
+}
+
+svg {
+  flex : 1;
+}
+
 .axis--x path {
   display: inherit;
 }
 
 path.line {
   fill: none;
-  stroke: #fff;
+  stroke: red;
   stroke-width: 2.5px;
 }
 
-  .axis path,
-  .axis line{
-    fill: none;
-    stroke: black;
-  }
+.axis path,
+.axis line{
+  fill: none;
+  stroke: black;
+}

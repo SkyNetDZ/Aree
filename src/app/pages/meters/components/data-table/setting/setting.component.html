@@ -1,0 +1,71 @@
+<dialog class="mdl-dialog">
+  <form #configForm="ngForm" (ngSubmit)="saveConfig(configForm.value)">
+    <div class="mdl-dialog__content">
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+        <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" name="newColumn" [(ngModel)]="newColumn">
+        <span class="mdl-checkbox__label">New Column </span>
+      </label>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label>Column
+          <select name="name" [(ngModel)]="columnName" placeholder="text">
+            <option value="" disabled selected>Choose nature</option>
+            <option *ngFor="let column of columns">{{ column.columnName }}</option>
+          </select>
+        </label>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label>Mesure
+          <select name="nature" [(ngModel)]="nature" placeholder="text">
+            <option value="" disabled selected>Choose nature</option>
+            <option *ngFor="let n of natures" [value]="n.value">{{ n.key }}</option>
+          </select>
+        </label>
+      </div>
+      <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+        <label>Nature
+          <select name="dataType" [(ngModel)]="dataType" placeholder="text">
+            <option value="" disabled selected>Choose nature</option>
+            <option *ngFor="let n of dataTypes" [value]="n.value">{{ n.key }}</option>
+          </select>
+        </label>
+      </div>
+      <!-- -->
+      <div style="display: inline-flex;flex-direction: row;">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 30%">
+          <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?"  name="valuePeriod"  [(ngModel)]="valuePeriod">
+          <label class="mdl-textfield__label" >Period Value</label>
+          <span class="mdl-textfield__error">Input is not a number!</span>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <select name="periodUnit" [(ngModel)]="periodUnit" placeholder="text">
+            <option value="" disabled selected>Choose period</option>
+            <option *ngFor="let p of periods" [value]="p.value">{{ p.key }}</option>
+          </select>
+        </div>
+      </div>
+      <div style="display: inline-flex;flex-direction: row;">
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label" style="width: 30%">
+          <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?"  name="valueDecalage"  [(ngModel)]="valueDecalage">
+          <label class="mdl-textfield__label" >Decalage Value</label>
+          <span class="mdl-textfield__error">Input is not a number!</span>
+        </div>
+        <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+          <select type="select" name="durationUnit" [(ngModel)]="durationUnit" placeholder="text">
+            <option value="" disabled selected>Choose decalage</option>
+            <option *ngFor="let p of periods" [value]="p.value">
+              {{ p.key }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+        <input type="checkbox" class="mdl-checkbox__input" name="fixed" [(ngModel)]="fixed">
+        <span class="mdl-checkbox__label">Freez</span>
+      </label>
+    </div>
+    <div class="mdl-dialog__actions">
+      <button type="submit" class="mdl-button">Ok</button>
+      <button type="button" class="mdl-button close">Cancel</button>
+    </div>
+  </form>
+</dialog>

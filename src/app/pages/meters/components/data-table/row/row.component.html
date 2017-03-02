@@ -1,0 +1,15 @@
+<div *ngFor="let row of rows;let i= index;">
+  <app-cell *ngIf="sectionType == 1" [ngStyle]="{ 'width.px' :50 }">
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" [ngClass]="{'is-checked' :row.checked }">
+          <input type="checkbox" class="mdl-checkbox__input"  (click)="row.check(treeView); checkRow($event,row)">
+    </label>
+  </app-cell>
+  <app-cell *ngFor="let cell of columns;let j= index;">
+    <span [ngClass]="{'hidden-space': j==0 && treeView }" [ngStyle]="{display: j==0 && treeView ? '' : 'none' }" *ngFor="let i of colLevel"><i class="material-icons">keyboard_arrow_right</i></span>
+    <span *ngIf="treeView && (j == 0 && row.children.length > 0)" [ngClass]="{'icon-expended': row.expanded }" style="float: left;"><i class="material-icons">keyboard_arrow_right</i></span>
+    <span (click)="row.toggle(treeView)"> {{ row[cell.dataIndex]}}</span>
+  </app-cell>
+  <div *ngIf="row.expanded">
+    <app-row *ngIf="row.children.length > 0" [rows]="row.children" [columns]="columns" [level]="level+1" [treeView]="treeView" [sectionType]="sectionType"></app-row>
+  </div>
+</div>

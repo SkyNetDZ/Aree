@@ -1,0 +1,9 @@
+<app-cell *ngIf="sectionType == 1" [ngStyle]="{'width.px' :50 }">
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect">
+          <input type="checkbox" class="mdl-checkbox__input" (click)="checkRows($event)">
+    </label>
+</app-cell>
+<app-cell *ngFor="let column of columns; let i = index;" draggable="{{ i > 0}}"  (dragstart)="drag($event,i)" (drop)="drop($event,i)" (dragover)="allowDrop($event)">
+  {{ column.columnName }}
+</app-cell>
+

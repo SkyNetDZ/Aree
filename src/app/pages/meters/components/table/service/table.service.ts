@@ -168,5 +168,4 @@ export class TableService {
       ;
     return this._http.post(this.urlCostumValue, body, headers).map(res => res.json());
   }
-  }
-//{"columnName":"Column Param","dataIndex":"CustomDataIndex_7","configCol":{"dataType":"9","nature":"0","periodUnit":"7","offsetPeriod":"1","durationUnit":"6","duration":"3"}}]"
+}

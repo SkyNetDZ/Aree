@@ -1,0 +1,26 @@
+
+:host{
+  /*display: table-row;*/
+  position: relative;
+  height: 30px;
+  transition-duration: .28s;
+  transition-timing-function: cubic-bezier(.4, 0, .2, 1);
+  transition-property: background-color;
+  width: 100%;
+  vertical-align: middle;
+  flex:1;
+}
+
+.icon-expended {
+  -ms-transform: rotate(90deg); /* IE 9 */
+  -webkit-transform: rotate(90deg); /* Chrome, Safari, Opera */
+  transform: rotate(90deg);
+  /*transition: 1s ease-in-out;*/
+}
+
+.hidden-space{
+  visibility: collapse;
+  float : left;
+}
+
+

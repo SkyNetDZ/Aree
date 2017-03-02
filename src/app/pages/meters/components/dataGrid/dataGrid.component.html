@@ -7,34 +7,184 @@
 <!--Tree View-->
 <!--</button>-->
 
-<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+<!--<table class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
   <thead [ngStyle]="{display: headerHidden ? 'none' : ''}">
-  <tr>
-    <th *ngFor="let column of columns; let j = index">
-      {{ column.columnName}}
-      <button id="'demo-menu-lower-right'+j"
-              class="mdl-button mdl-js-button mdl-button--icon">
+    <tr>
+      <th *ngFor="let column of columns; let j = index">
+        {{ column.columnName}}
+        <button id="'demo-menu-lower-right'+j" class="mdl-button mdl-js-button mdl-button--icon">
         <i class="material-icons">more_vert</i>
       </button>
-      <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
-          for="'demo-menu-lower-right'+j">
-        <li class="mdl-menu__item">
-          <form action="#">
-            <div class="mdl-textfield mdl-js-textfield">
-              <input class="mdl-textfield__input" type="text" id="sample1">
-              <label class="mdl-textfield__label" for="sample1">Text...</label>
-            </div>
-          </form>
-        </li>
-      </ul>
-    </th>
-  </tr>
+        <ul class="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect" for="'demo-menu-lower-right'+j">
+          <li class="mdl-menu__item">
+            <form action="#">
+              <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                <input class="mdl-textfield__input" type="text" id="sample1">
+                <label class="mdl-textfield__label" for="sample1">Text...</label>
+              </div>
+            </form>
+          </li>
+        </ul>
+      </th>
+    </tr>
   </thead>
   <tbody *ngFor="let row of rows;let i =index">
-  <tr>
-    <td *ngFor="let cell of columns" [ngClass]="{'mdl-data-table__cell--non-numeric': i == 0 }">
-      {{row[cell.dataIndex]}}
-    </td>
-  </tr>
+    <tr>
+      <td *ngFor="let cell of columns" [ngClass]="{'mdl-data-table__cell--non-numeric': i == 0 }">
+        {{row[cell.dataIndex]}}
+      </td>
+    </tr>
   </tbody>
-</table>
+</table>-->
+
+<div class="a-toolbar">
+  <button id="show-dialog"class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored" (click)="showConfWin($event)">
+    <i class="material-icons">filter_list</i>
+  </button>
+
+
+  <button id="tt2" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+    <i class="material-icons">add</i>
+  </button>
+
+
+  <button id="tt3" class="mdl-button mdl-js-button mdl-button--fab mdl-button--mini-fab mdl-button--colored">
+    <i class="material-icons">settings</i>
+  </button>
+
+
+  <label for="switch1" class="mdl-switch mdl-js-switch" style="width: auto;">
+    <input type="checkbox" id="switch1" class="mdl-switch__input">
+    <span class="mdl-switch__label">Tree View off/on</span>
+  </label>
+
+</div>
+
+<dialog class="mdl-dialog">
+  <div class="mdl-dialog__content">
+    <!--<div class="input-field col s12">-->
+      <!--<select>-->
+        <!--<option value="" disabled selected>Choose your option</option>-->
+        <!--<option value="1">Column A</option>-->
+        <!--<option value="2">Column B</option>-->
+        <!--<option value="3">Column C</option>-->
+      <!--</select>-->
+      <!--<label>Materialize Select</label>-->
+    <!--</div>-->
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" type="text" id="sample1">
+      <label class="mdl-textfield__label" for="sample1">Column</label>
+    </div>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" type="text" id="sample2">
+      <label class="mdl-textfield__label" for="sample1">Type Data</label>
+    </div>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" type="text" id="sample3">
+      <label class="mdl-textfield__label" for="sample1">Nature</label>
+    </div>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" type="text" id="sample4">
+      <label class="mdl-textfield__label" for="sample1">Period</label>
+    </div>
+    <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+      <input class="mdl-textfield__input" type="text" id="sample5">
+      <label class="mdl-textfield__label" for="sample1">Shifting</label>
+    </div>
+
+    <label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for="checkbox-1">
+      <input type="checkbox" id="checkbox-1" class="mdl-checkbox__input" checked>
+      <span class="mdl-checkbox__label">Freez</span>
+    </label>
+  </div>
+  <div class="mdl-dialog__actions">
+    <button type="button" class="mdl-button">Ok</button>
+    <button type="button" class="mdl-button close">Cancel</button>
+  </div>
+</dialog>
+
+<div class="content-grid mdl-grid">
+  <div class="a-table">
+    <div class="a-header">
+      <div class="a-cell">
+        A
+      </div>
+      <div class="a-cell">B</div>
+      <div class="a-cell">C</div>
+    </div>
+    <div class="a-body">
+      <!-- parent node -->
+      <div class="a-row">
+        <div class="a-cell">
+          <span style="float: left;"><i class="material-icons">keyboard_arrow_right</i></span>
+          <span>
+<label for="chkbox1" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" style="display: inline-flex">
+  <input type="checkbox" id="chkbox1" class="mdl-checkbox__input">
+  <span class="">Enable AutoSave</span>
+          </label>
+          </span>
+        </div>
+        <div class="a-cell">b</div>
+        <div class="a-cell">c</div>
+      </div>
+      <!-- Child node-->
+      <div class="a-row">
+        <div class="a-cell">
+          <span style="float: left;visibility: collapse"><i class="material-icons">keyboard_arrow_right</i></span>
+          <span style="float: left;"><i class="material-icons">keyboard_arrow_right</i></span>
+          <span>
+<label for="chkbox2" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"  style="display: inline-flex">
+  <input type="checkbox" id="chkbox2" class="mdl-checkbox__input">
+  <span class="">Enable AutoSave</span>
+          </label>
+          </span>
+        </div>
+        <div class="a-cell">b</div>
+        <div class="a-cell">c</div>
+      </div>
+      <!-- leif node -->
+      <div class="a-row">
+        <div class="a-cell">
+          <span style="float: left;visibility: collapse"><i class="material-icons">keyboard_arrow_right</i></span>
+          <span style="float: left;visibility: collapse"><i class="material-icons">keyboard_arrow_right</i></span>
+          <span style="float: left;visibility: collapse"><i class="material-icons">keyboard_arrow_right</i></span>
+          <span>
+<label for="chkbox3" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"  style="display: inline-flex">
+  <input type="checkbox" id="chkbox3" class="mdl-checkbox__input">
+  <span class="">Enable AutoSave</span>
+          </label>
+          </span>
+        </div>
+        <div class="a-cell">b</div>
+        <div class="a-cell">c</div>
+      </div>
+
+      <div class="a-row">
+        <div class="a-cell">
+          <span style="float: left;"><i class="material-icons">keyboard_arrow_right</i></span>
+          <span>
+<label for="chkbox1" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"  style="display: inline-flex">
+  <input type="checkbox" id="chkbox1" class="mdl-checkbox__input">
+  <span class="">Enable AutoSave</span>
+          </label>
+          </span>
+        </div>
+        <div class="a-cell">b</div>
+        <div class="a-cell">c</div>
+      </div>
+      <div class="a-row">
+        <div class="a-cell">
+          <span style="float: left;"><i class="material-icons">keyboard_arrow_right</i></span>
+          <span>
+<label for="chkbox5" class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect"  style="display: inline-flex">
+  <input type="checkbox" id="chkbox5" class="mdl-checkbox__input">
+  <span class="">Enable AutoSave</span>
+          </label>
+          </span>
+        </div>
+        <div class="a-cell">b</div>
+        <div class="a-cell">c</div>
+      </div>
+    </div>
+  </div>
+</div>

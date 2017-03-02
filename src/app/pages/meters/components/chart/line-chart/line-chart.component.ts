@@ -5,7 +5,7 @@ import * as d3 from "d3";
   selector: 'app-line-chart',
   templateUrl: './line-chart.component.html',
   styleUrls: ['./line-chart.component.css'],
-  encapsulation: ViewEncapsulation.None
+  encapsulation: ViewEncapsulation.Native
 
 })
 export class LineChartComponent implements OnInit {
@@ -46,8 +46,8 @@ export class LineChartComponent implements OnInit {
   private initSvg() {
     let element = this.chartContainer.nativeElement;
     this.svg = d3.select(element).append('svg')
-      .attr('width', element.offsetWidth)
-      .attr('height', 600)
+      .attr('width', 1000)
+      .attr('height', 400)
       .call(this.responsivefy);
     this.width = +this.svg.attr("width") - this.margin.left - this.margin.right;
     this.height = +this.svg.attr("height") - this.margin.top - this.margin.bottom;

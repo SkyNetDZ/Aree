@@ -1,0 +1,17 @@
+:host {
+  display: inline-flex;
+  vertical-align: middle;
+  position: relative;
+  height: 40px;
+  border-top: 1px solid rgba(0, 0, 0, .12);
+  border-bottom: 1px solid rgba(0, 0, 0, .12);
+  padding: 12px 18px;
+  box-sizing: border-box;
+  text-align: center;
+  align-content: center;
+  min-width: 40px;
+  width: 150px;
+  color: black;
+  flex-grow: 1;
+  align-items: center;
+}
