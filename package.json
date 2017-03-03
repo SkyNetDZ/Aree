@@ -166,7 +166,8 @@
     "postbuild:electron.full": "npm run electron:start",
     "build:electron.renderer": "npm run webpack -- --config config/electron/webpack.renderer.prod.js",
     "build:electron.main": "npm run webpack -- --config config/electron/webpack.electron.prod.js",
-    "electron:start": "electron build"
+    "electron:start": "electron build",
+    "heroku-postbuild": "webpack -p --config ./webpack.prod.config.js --progress"
   },
   "repository": {
     "type": "",
